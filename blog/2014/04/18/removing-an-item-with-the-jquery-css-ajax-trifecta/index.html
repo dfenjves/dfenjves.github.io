@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Removing an Item With the Jquery-CSS-Ajax Trifecta - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Recently I&rsquo;ve been working on a basic dive logging application with my buddy Chris from caguthrie.com. The idea is to take the very manual &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dfenjves.github.io/blog/2014/04/18/removing-an-item-with-the-jquery-css-ajax-trifecta">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dfenjves.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Removing an Item With the Jquery-CSS-Ajax Trifecta</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-18T14:27:04-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Recently I&rsquo;ve been working on a basic dive logging application with my buddy Chris from caguthrie.com. The idea is to take the very manual booklet that divers have to fill out after a dive and bring it online. Similar products like this exist, but we wanted to make our own.</p>
+
+<p>I&rsquo;m using this project to beef up my javascript/ajax skills and as such, will be writing today about removing items from a page using javascript, and then removing those items from your database by making an ajax request to your server.</p>
+
+<p>We built a section in the log where you can add fish that you&rsquo;ve seen on your dive. It&rsquo;s based on a scrape of common fish from wikipedia. Here&rsquo;s an example:</p>
+
+<p style="text-align:center;"><img src="/images/ajaxpic1.png"></p>
+
+<p>Now let&rsquo;s say I didn&rsquo;t actually see a manefish on my most recent dive. How would I remove it? We need to figure out the following steps:</p>
+
+<ul>
+<li>Display a remove button when you hover over a fish.</li>
+<li>Remove the fish when the remove button is pressed.</li>
+<li>Send a request to the server to remove the association between the dive and the fish.</li>
+</ul>
+
+
+<p>Let&rsquo;s go in to each of these steps in more detail:</p>
+
+<p><strong>Part 1 &ndash; Display a Remove Button on hover using CSS:</strong></p>
+
+<p style="text-align:center;"><img src="/images/ajaxpic2.png"></p>
+
+<p>Displaying a button on hover can be done in either javascript or css. In our case, we went with the more straightforward css. We created a button span with a specific class (&ldquo;fish-remove)&rdquo; that we placed withing the fish thumnail div. The button also contained data about the dive and the fish id (we added this data with ERB). Here is the html(with erb) for each fish &lsquo;card&rsquo;:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-md-6&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;a</span> <span class="na">href =</span><span class="err"> </span><span class="s">&quot;&lt;%= fish.wiki_link %&gt;&quot;</span> <span class="na">target=</span><span class="s">&quot;_blank&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;thumbnail fish-thumb&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">&quot;btn fish-remove&quot;</span> <span class="na">data-fish-id=</span><span class="s">&lt;%=</span> <span class="na">fish</span><span class="err">.</span><span class="na">id</span> <span class="err">%</span><span class="nt">&gt;</span>, data-dive-id=<span class="err">&lt;</span>%= @dive.id %&gt;&gt;X<span class="nt">&lt;/button&gt;</span>
+</span><span class='line'>        <span class="err">&lt;</span>%= image_tag &quot;http://#{fish.picture_link}&quot; %&gt;
+</span><span class='line'>        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;caption&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;h4&gt;</span><span class="err">&lt;</span>%= fish.name %&gt;<span class="nt">&lt;/h4&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/a&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> We hid the button using css:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.fish-remove</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">visibility</span><span class="o">:</span> <span class="k">hidden</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">position</span><span class="o">:</span><span class="k">absolute</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">top</span><span class="o">:</span><span class="m">5px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">right</span><span class="o">:</span><span class="m">20px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span><span class="m">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span><span class="m">5px</span> <span class="m">3px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see that we set the position to absolute and made some changes to margin, padding, etc. This was all done to improve the positioning of the button &ndash; you&rsquo;ll have to play with this yourself.</p>
+
+<p>Next, we set the visibility for the .fish-remove class to become visible when you hover over it&rsquo;s parent .fish-thumb class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.fish-thumb</span><span class="nd">:hover</span> <span class="nc">.fish-remove</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">visibility</span><span class="o">:</span> <span class="k">visible</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At this point, if you test your page out, you&rsquo;ll have the button hidden and and showing up when you hover over it. But clicking on it won&rsquo;t do anything.</p>
+
+<p><strong>Part 2 &ndash; Using JQuery to remove the thumbnail from the page</strong></p>
+
+<p>Great. We have a working button. Now, let&rsquo;s write some jquery code to listen for a click on the remove button and remove the thumbnail:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#fish&quot;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="s2">&quot;.fish-remove&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">closest</span><span class="p">(</span><span class="s2">&quot;.thumbnail&quot;</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What did we do here? We created an event listener (.on &ldquo;click&rdquo;) that listens for a mouse click on any &ldquo;.fish-remove&rdquo; class within the #fish id. We did this so that it will work regardless of whether items have been added to the page via agjax or not. We prevent default on the button and then remove the closest parent .thumbnail class from the page.</p>
+
+<p>Reload your page and you&rsquo;ll see that you can now remove the image when you click on the button. Stupendous. But if you reload again, you&rsquo;ll see the image is still there. That&rsquo;s because you haven&rsquo;t actually send a request to the server to remove the association between the image and the dive. We&rsquo;ll do that next, in part three.</p>
+
+<p><strong>Part 3 &ndash; Using ajax to remove a database association.</strong></p>
+
+<p>If you remember, in part 1 we added additional data in to our html button element: the fish id and the dive id. We
+did this so that we can pull this information in to our javascript and send it in our a jax request. To get this data in our js file, use the .data method with the attribute names that you assigned. He we set them to variables for later use:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;dive-id&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">diver_id</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;diver-id&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We also set the current item that has been selected ($(this)) to a variable for later use:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">currentX</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, let&rsquo;s write the ajax request that will send  the data to the server. I&rsquo;ve created a RESTful route in my routes.rb file that looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">delete</span> <span class="s1">&#39;/dives/:id/fish/:fish_id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;dives#removefish&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So we need to send a delete request with the dive id and the fish id. Now you see why we have that information as variables!</p>
+
+<p>So, the Ajax:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/dives/&#39;</span><span class="o">+</span><span class="nx">id</span><span class="o">+</span><span class="s1">&#39;/divers/&#39;</span><span class="o">+</span><span class="nx">fish_id</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">data</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;_method&quot;</span><span class="o">:</span><span class="s2">&quot;delete&quot;</span><span class="p">},</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will remove the fish from the dive on the backend. Let&rsquo;s take the frontend solution we developed in part 2 and add it in to the javascript when we receive a  response from the server telling us that it successfully removed the fish:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/dives/&#39;</span><span class="o">+</span><span class="nx">id</span><span class="o">+</span><span class="s1">&#39;/fish/&#39;</span><span class="o">+</span><span class="nx">fish_id</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">data</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;_method&quot;</span><span class="o">:</span><span class="s2">&quot;delete&quot;</span><span class="p">},</span>
+</span><span class='line'>  <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+</span><span class='line'>      <span class="nx">currentX</span><span class="p">.</span><span class="nx">closest</span><span class="p">(</span><span class="s2">&quot;.thumbnail&quot;</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Amazing! Put it all together, and voila:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//Removing a fish</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#fish&quot;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="s2">&quot;.fish-remove&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+</span><span class='line'>      <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;dive-id&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">fish_id</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;fish-id&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">currentX</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>          <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/dives/&#39;</span><span class="o">+</span><span class="nx">id</span><span class="o">+</span><span class="s1">&#39;/fish/&#39;</span><span class="o">+</span><span class="nx">fish_id</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">data</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;_method&quot;</span><span class="o">:</span><span class="s2">&quot;delete&quot;</span><span class="p">},</span>
+</span><span class='line'>      <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">currentX</span><span class="p">.</span><span class="nx">closest</span><span class="p">(</span><span class="s2">&quot;.thumbnail&quot;</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="c1">//end removing a fish</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Make sure you have a removefish method in your dives controller that renders &ldquo;render :json => { :head => :ok }&rdquo; when the process of removing the fish form the dive is complete. This is what your javascript will receive as the success response. Here&rsquo;s the method from our controller for reference.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="k">def</span> <span class="nf">removefish</span>
+</span><span class='line'>    <span class="vi">@dive</span> <span class="o">=</span> <span class="no">Dive</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@fish</span> <span class="o">=</span> <span class="no">Fish</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:fish_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@dive_fish</span> <span class="o">=</span> <span class="no">DiveFish</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">:dive_id</span> <span class="o">=&gt;</span> <span class="vi">@dive</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="ss">:fish_id</span> <span class="o">=&gt;</span> <span class="vi">@fish</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@dive_fish</span><span class="o">.</span><span class="n">destroy</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:head</span> <span class="o">=&gt;</span> <span class="ss">:ok</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wow. That was a long blog post. Hopefully this is useful to Javascript/Ajax beginners!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-18T14:27:04-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dfenjves.github.io/blog/2014/04/18/removing-an-item-with-the-jquery-css-ajax-trifecta/" data-via="" data-counturl="http://dfenjves.github.io/blog/2014/04/18/removing-an-item-with-the-jquery-css-ajax-trifecta/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/18/implementing-carrierwave-a-simple-guide/" title="Previous Post: Implementing CarrierWave - A simple guide">&laquo; Implementing CarrierWave - A simple guide</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/removing-an-item-with-the-jquery-css-ajax-trifecta/">Removing an Item With the Jquery-CSS-Ajax Trifecta</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/implementing-carrierwave-a-simple-guide/">Implementing CarrierWave - a Simple Guide</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres/">Launching a Sinatra-based Heroku App With Postgres</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/notes-from-a-weekend-of-hacking/">Notes From a Weekend of Hacking</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/how-legal-is-web-scraping/">How Legal Is Web Scraping?"</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

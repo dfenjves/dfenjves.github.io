@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Launching a Sinatra-based Heroku App With Postgres - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Friday was equally one of the most frustrating and satisfying days I’ve had since I’ve started at the Flatrion School. We spent the day working on &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dfenjves.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Launching a Sinatra-based Heroku App With Postgres</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-18T13:54:43-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Friday was equally one of the most frustrating and satisfying days I’ve had since I’ve started at the Flatrion School. We spent the day working on our pending labs/personal projects and I picked up where I’d left off on my venture to scrape yelp and display museum opening and closing hours dynamically. Once I had my css where I felt like it was somewhat presentable, I decided to set up my application on Heroku, something I imagined would be a simple and painless process. Was I wrong. What followed was five hours of dealing with obstacle after obstacle to get my app launched &ndash; so much so that at one point I had four TAs gathered around trying to help me get through the myriad of issues I was facing. Anyway, I’m going to try to explain what I did to get my app up and running, hopefully this will be useful to other people trying to do the same thing.</p>
+
+<p><strong>Part 1:  Moving from SQLite3 to Postgres</strong></p>
+
+<p>Heroku doesn’t work with SQLite 3, so the first challenge was to move is-it-open-nyc to postgres. Here are the steps to make this happen:</p>
+
+<p>+Remove sqlite3 from your gemfile and add pg (postgres).
++Change your database connection in your environment.rb file:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ActiveRecord::Base.establish_connection('postgres://localhost/project')</span></code></pre></td></tr></table></div></figure>
+
+
+<p>+Initialize a new postgres server:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>initdb -D projectdb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>+Start up the Postgres server in your project directory. This server needs to be running locally when you test your postgres-connected app:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>postgres -D projectdb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>+Leave the server running and in a separate terminal window create a new database within this database cluster. Make sure to give the database the same name as the connection you set up in your Activerecord::Base connection in your environmencreatedb -D project
+Check and see if your database is set up (and play around with data) by running the cli for psql (more on psql here):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>psql project</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once your database is set up, run your migrations in exactly the same way you&rsquo;ve been doing for sqlite3. The activerecord adaptor takes care of the connection to the database, so all you should be doing is running rake db:migrate. Seed your data, fire up your database, cross your fingers, and hope that there&rsquo;s something there!</p>
+
+<p><strong>Part deux: Pushing to Heroku</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heroku init
+</span><span class='line'>git push heroku master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>+That&rsquo;s pretty much it, in terms of getting the app on to Heroku (More reading here), but you&rsquo;re not done. You need to set up your database on Heroku itself.
++Install the Postgres buildpack for Heroku:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heroku addons | grep POSTGRES</span></code></pre></td></tr></table></div></figure>
+
+
+<p>+Connect heroku to your postgres db:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heroku addons:add heroku-postgresql:dev</span></code></pre></td></tr></table></div></figure>
+
+
+<p>+When this is done, you&rsquo;ll be assigned a  HEROKU_POSTGRESQL_COLOR_URL whose URL will serve as the heroku database for your app. To get the url run:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heroku config | grep HEROKU_POSTGRESQL</span></code></pre></td></tr></table></div></figure>
+
+
+<p>+The url will look something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HEROKU_POSTGRESQL_RED_URL: postgres://user3123:passkja83kd8@ec2-117-21-174-214.compute-1.amazonaws.com:6212/db982398</span></code></pre></td></tr></table></div></figure>
+
+
+<p>+Jump back in to your project and replace the ActiveRecord::Base connector url  (&lsquo;postgres://localhost/project&rsquo;) with this new url. Add, commit and push again to heroku.
++From here, your last step is to run your migrations and seed your database in Heroku. To run files, you have to do the same thing your would locally, but add in &lsquo;heroku run&rsquo;:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>heroku run rake db:migrate
+</span><span class='line'>heroku run rake db:seed</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it. There are a LOT of steps to go through, but if you&rsquo;ve done it once and understand what&rsquo;s going on, future attempts should be much easier.</p>
+
+<p>Here it is, up on Heroku:</p>
+
+<p>is-it-open-nyc.herokuapp.com</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-18T13:54:43-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres/" data-via="" data-counturl="http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/18/notes-from-a-weekend-of-hacking/" title="Previous Post: Notes from a Weekend of Hacking">&laquo; Notes from a Weekend of Hacking</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/04/18/implementing-carrierwave-a-simple-guide/" title="Next Post: Implementing CarrierWave - A simple guide">Implementing CarrierWave - A simple guide &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/removing-an-item-with-the-jquery-css-ajax-trifecta/">Removing an Item With the Jquery-CSS-Ajax Trifecta</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/implementing-carrierwave-a-simple-guide/">Implementing CarrierWave - a Simple Guide</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres/">Launching a Sinatra-based Heroku App With Postgres</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/notes-from-a-weekend-of-hacking/">Notes From a Weekend of Hacking</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/how-legal-is-web-scraping/">How Legal Is Web Scraping?"</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
