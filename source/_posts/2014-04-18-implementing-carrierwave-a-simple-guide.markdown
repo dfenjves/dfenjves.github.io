@@ -3,7 +3,7 @@ layout: post
 title: "Implementing CarrierWave - A simple guide"
 date: 2014-04-18 13:55:53 -0400
 comments: true
-categories: 
+categories: carrierwave, flatrion school, coding, ruby, rails, gem, uploading
 ---
 
 This weekend I decided to add file uploads to a small project I’ve been working on (mostly to get some additional rails practice). After searching for a while, I came across Carrierwave, which is a simple ruby gem that sets you up with easy image uploading and processing. 

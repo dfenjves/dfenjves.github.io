@@ -3,7 +3,7 @@ layout: post
 title: "Launching a Sinatra-based Heroku App with Postgres"
 date: 2014-04-18 13:54:43 -0400
 comments: true
-categories: 
+categories: sinatra, heroku, postgres, flatiron school, sqlite3
 ---
 
 Friday was equally one of the most frustrating and satisfying days I’ve had since I’ve started at the Flatrion School. We spent the day working on our pending labs/personal projects and I picked up where I’d left off on my venture to scrape yelp and display museum opening and closing hours dynamically. Once I had my css where I felt like it was somewhat presentable, I decided to set up my application on Heroku, something I imagined would be a simple and painless process. Was I wrong. What followed was five hours of dealing with obstacle after obstacle to get my app launched - so much so that at one point I had four TAs gathered around trying to help me get through the myriad of issues I was facing. Anyway, I’m going to try to explain what I did to get my app up and running, hopefully this will be useful to other people trying to do the same thing.

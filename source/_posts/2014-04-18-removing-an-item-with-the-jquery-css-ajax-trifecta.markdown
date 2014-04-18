@@ -3,7 +3,7 @@ layout: post
 title: "Removing an Item with the Jquery-CSS-Ajax Trifecta"
 date: 2014-04-18 14:27:04 -0400
 comments: true
-categories: 
+categories: ajax, jquery, css, removing images, flatiron school
 ---
 
 Recently I've been working on a basic dive logging application with my buddy Chris from caguthrie.com. The idea is to take the very manual booklet that divers have to fill out after a dive and bring it online. Similar products like this exist, but we wanted to make our own. 

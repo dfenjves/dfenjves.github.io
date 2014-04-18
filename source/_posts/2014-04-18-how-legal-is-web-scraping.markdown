@@ -3,9 +3,8 @@ layout: post
 title: How Legal Is Web Scraping?"
 date: 2014-04-18 13:53:13 -0400
 comments: true
-categories: 
+categories: law, scraping, internet law, nokogiri, open-uri, flatiron school
 ---
-
 
 I’ve recently learned how to perform basic web scraping using nothing but Nokogiri, Open-Uri, Ruby, a paperclip, and the internet. It’s an awesome feeling - to be able to MacGyver your way deep in to the code of a massive website and pull out exactly what you need, throw it into a database, and then manipulate that data to your heart’s content. It’s like I’ve discovered that I have a secret superpower, and am only beginning to see what I can do with it.
 

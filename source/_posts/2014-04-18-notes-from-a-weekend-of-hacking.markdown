@@ -3,7 +3,7 @@ layout: post
 title: "Notes from a Weekend of Hacking"
 date: 2014-04-18 13:53:45 -0400
 comments: true
-categories: 
+categories: new york, flatiron school, scraping, nokogiri
 ---
 
 I’m piecing together a little Sinatra app that scrapes Yelp and displays schedule data for the many museums in New York. It’s an interesting exercise and has been pretty challenging so far. It’s not finished yet, but here are a few thoughts and lessons from my work:
