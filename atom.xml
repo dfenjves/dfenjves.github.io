@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-04-18T14:33:23-04:00</updated>
+  <updated>2014-04-18T14:43:21-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Daniel Fenjves]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>

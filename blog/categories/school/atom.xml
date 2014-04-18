@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: School, | Will Code For Foods]]></title>
+  <link href="http://dfenjves.github.io/blog/categories/school/atom.xml" rel="self"/>
+  <link href="http://dfenjves.github.io/"/>
+  <updated>2014-04-18T14:43:21-04:00</updated>
+  <id>http://dfenjves.github.io/</id>
+  <author>
+    <name><![CDATA[Daniel Fenjves]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Implementing CarrierWave - a Simple Guide]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/18/implementing-carrierwave-a-simple-guide/"/>
+    <updated>2014-04-18T13:55:53-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/18/implementing-carrierwave-a-simple-guide</id>
+    <content type="html"><![CDATA[<p>This weekend I decided to add file uploads to a small project I’ve been working on (mostly to get some additional rails practice). After searching for a while, I came across Carrierwave, which is a simple ruby gem that sets you up with easy image uploading and processing.</p>
+
+<p>The setup was a lot easier than I expected. First step was to add the carrierwave gem to the project’s gemfile and run ‘bundle install’. Straightforward. After this, run ‘rails generate uploader {uploader_name}’ (in my case, the name was guests (as in hotel guests). In your app file you’ll now find an ‘uploaders’ directory, in which you will find the uploader class that you just generated. Cool. Leave that there for now.</p>
+
+<p>You’ll need to add a column to the ActiveRecord model that will hold your image. We’ve done this before: ‘rails generate migration Add<strong>_to</strong>__ image:string’. Run your migrations to get this into the database, and then head over to the model, where you’ll mount the uploader:
+<code>ruby
+mount_uploader :image, ImageUploader
+</code>
+Great. You’re almost there. The last piece of the puzzle is getting the upload link for the image into your form. Rails, as always, comes to the rescue with a file upload tag:
+```html
+  <p></p>
+
+<pre><code>&lt;%= f.file_field :image %&gt;
+</code></pre>
+
+<p>  </p>
+```
+That’s pretty much it. There are a bunch of additional settings you can change in the ImageUploader class &ndash; The ability to scale the image, to create various versions (thumbnails, different sizes, etc) and settings to determine where the image gets saved. I have this running locally now, but I imagine that once I get this up I’ll have to set the storage to AWS or something similar.</p>
+
+<p>Peace.</p>
+
+<p>Resources:</p>
+
+<p><a href="http://railscasts.com/episodes/253-carrierwave-file-uploads">http://railscasts.com/episodes/253-carrierwave-file-uploads</a></p>
+
+<p><a href="https://github.com/carrierwaveuploader/carrierwave">https://github.com/carrierwaveuploader/carrierwave</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Launching a Sinatra-based Heroku App With Postgres]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres/"/>
+    <updated>2014-04-18T13:54:43-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres</id>
+    <content type="html"><![CDATA[<p>Friday was equally one of the most frustrating and satisfying days I’ve had since I’ve started at the Flatrion School. We spent the day working on our pending labs/personal projects and I picked up where I’d left off on my venture to scrape yelp and display museum opening and closing hours dynamically. Once I had my css where I felt like it was somewhat presentable, I decided to set up my application on Heroku, something I imagined would be a simple and painless process. Was I wrong. What followed was five hours of dealing with obstacle after obstacle to get my app launched &ndash; so much so that at one point I had four TAs gathered around trying to help me get through the myriad of issues I was facing. Anyway, I’m going to try to explain what I did to get my app up and running, hopefully this will be useful to other people trying to do the same thing.</p>
+
+<p><strong>Part 1:  Moving from SQLite3 to Postgres</strong></p>
+
+<p>Heroku doesn’t work with SQLite 3, so the first challenge was to move is-it-open-nyc to postgres. Here are the steps to make this happen:</p>
+
+<p>+Remove sqlite3 from your gemfile and add pg (postgres).
++Change your database connection in your environment.rb file:
+<code>
+ActiveRecord::Base.establish_connection('postgres://localhost/project')
+</code></p>
+
+<p>+Initialize a new postgres server:
+<code>
+initdb -D projectdb
+</code></p>
+
+<p>+Start up the Postgres server in your project directory. This server needs to be running locally when you test your postgres-connected app:
+<code>
+postgres -D projectdb
+</code>
++Leave the server running and in a separate terminal window create a new database within this database cluster. Make sure to give the database the same name as the connection you set up in your Activerecord::Base connection in your environmencreatedb -D project
+Check and see if your database is set up (and play around with data) by running the cli for psql (more on psql here):
+<code>
+psql project
+</code>
+Once your database is set up, run your migrations in exactly the same way you&rsquo;ve been doing for sqlite3. The activerecord adaptor takes care of the connection to the database, so all you should be doing is running rake db:migrate. Seed your data, fire up your database, cross your fingers, and hope that there&rsquo;s something there!</p>
+
+<p><strong>Part deux: Pushing to Heroku</strong>
+<code>
+heroku init
+git push heroku master
+</code></p>
+
+<p>+That&rsquo;s pretty much it, in terms of getting the app on to Heroku (More reading here), but you&rsquo;re not done. You need to set up your database on Heroku itself.
++Install the Postgres buildpack for Heroku:
+<code>
+heroku addons | grep POSTGRES
+</code>
++Connect heroku to your postgres db:
+<code>
+heroku addons:add heroku-postgresql:dev
+</code>
++When this is done, you&rsquo;ll be assigned a  HEROKU_POSTGRESQL_COLOR_URL whose URL will serve as the heroku database for your app. To get the url run:
+<code>
+heroku config | grep HEROKU_POSTGRESQL
+</code>
++The url will look something like this:
+<code>
+HEROKU_POSTGRESQL_RED_URL: postgres://user3123:passkja83kd8@ec2-117-21-174-214.compute-1.amazonaws.com:6212/db982398
+</code>
++Jump back in to your project and replace the ActiveRecord::Base connector url  (&lsquo;postgres://localhost/project&rsquo;) with this new url. Add, commit and push again to heroku.
++From here, your last step is to run your migrations and seed your database in Heroku. To run files, you have to do the same thing your would locally, but add in &lsquo;heroku run&rsquo;:
+<code>
+heroku run rake db:migrate
+heroku run rake db:seed
+</code>
+That&rsquo;s it. There are a LOT of steps to go through, but if you&rsquo;ve done it once and understand what&rsquo;s going on, future attempts should be much easier.</p>
+
+<p>Here it is, up on Heroku:</p>
+
+<p>is-it-open-nyc.herokuapp.com</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Notes From a Weekend of Hacking]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/18/notes-from-a-weekend-of-hacking/"/>
+    <updated>2014-04-18T13:53:45-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/18/notes-from-a-weekend-of-hacking</id>
+    <content type="html"><![CDATA[<p>I’m piecing together a little Sinatra app that scrapes Yelp and displays schedule data for the many museums in New York. It’s an interesting exercise and has been pretty challenging so far. It’s not finished yet, but here are a few thoughts and lessons from my work:</p>
+
+<p>1) rspec &ndash; I had a lot of time getting rspec working, but I found that checking all of the dependencies and essentially testing each piece of the process was the best way to troubleshoot the bugs I was getting. Once I had spec working, I actually got into the groove of writing tests and then immediately solving those tests in the models I was building. The best way to go about it is to write the tests precisely and with a narrow enough scope that they don’t seem totally overwhelming when it comes to solving them. Also .to be is not the same as .to eq. ().to be() looks for an exact object match, as opposed to eq, which looks for the contents of the object to be the same.</p>
+
+<p>2)There’s an issue with the Time object in ruby. Sometimes you need times without dates &ndash; as is the case with a schedule: The MoMA is open from 8:30am to 5:30pm on Wednesdays &ndash; but it seems that the Time and DateTime classes require a date as well as a time. There’s a nice little discussion to read here: <a href="https://www.ruby-forum.com/topic/215970.">https://www.ruby-forum.com/topic/215970.</a> Here’s what I did to get around this &ndash; not sure if it’s ok or will come back to bite me so any thoughts are very welcome: I assigned an arbitrary date (2000,1,1) to serve as a placeholder. So I have a string “10:30 am &ndash; 5:00pm”. How do I get this into a Time format?</p>
+
+<p><code>ruby
+opening_string = week_hash[day].split(" - ")[0]
+t = Time.new(2000,1,1,(opening_string[0..1].to_i),(opening_string[3..4].to_i))
+@open = t.strftime("%H:%M")
+closing_string = week_hash[day].split(" - ")[1]
+p = Time.new(2000,1,1,(closing_string[0..1].to_i+12),(closing_string[3..4].to_i))
+@close = p.strftime("%H:%M”)
+</code></p>
+
+<p>It’s not pretty, but it seems to do the trick. If there’s a better way to do this, I’d like to know it.</p>
+
+<p>3) It was interesting to think about the structure of the project. I built one model whose purpose it is to scrape Yelp using nokogiri, and another model to build a museum instance using the data that was pulled from yelp. I had trouble with redundancy as there were methods in the two models that seemed to be doing the same thing. My initialize method for a Museum.new is a good example of this:</p>
+
+<p>```ruby</p>
+
+<pre><code> def initialize(yelp_object)
+      @yelp_object = yelp_object
+      @name = yelp_object.name
+      @schedule = yelp_object.schedule
+      set_week_hash
+      set_times(:wednesday)
+ end
+</code></pre>
+
+<p>```
+Essentially the name and schedule instance variables are just pulling from the yelp-object methods with the same names. Seems weird.</p>
+
+<p>Anyway, I’m rambling &ndash; would love some feedback if anyone can provide!
+D</p>
+
+<p>The code so far: <a href="https://github.com/dfenjves/is-it-open">https://github.com/dfenjves/is-it-open</a></p>
+]]></content>
+  </entry>
+  
+</feed>
