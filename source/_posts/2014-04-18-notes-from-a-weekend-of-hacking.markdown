@@ -1,0 +1,42 @@
+---
+layout: post
+title: "Notes from a Weekend of Hacking"
+date: 2014-04-18 13:53:45 -0400
+comments: true
+categories: 
+---
+
+I’m piecing together a little Sinatra app that scrapes Yelp and displays schedule data for the many museums in New York. It’s an interesting exercise and has been pretty challenging so far. It’s not finished yet, but here are a few thoughts and lessons from my work:
+
+1) rspec - I had a lot of time getting rspec working, but I found that checking all of the dependencies and essentially testing each piece of the process was the best way to troubleshoot the bugs I was getting. Once I had spec working, I actually got into the groove of writing tests and then immediately solving those tests in the models I was building. The best way to go about it is to write the tests precisely and with a narrow enough scope that they don’t seem totally overwhelming when it comes to solving them. Also .to be is not the same as .to eq. ().to be() looks for an exact object match, as opposed to eq, which looks for the contents of the object to be the same.
+
+2)There’s an issue with the Time object in ruby. Sometimes you need times without dates - as is the case with a schedule: The MoMA is open from 8:30am to 5:30pm on Wednesdays - but it seems that the Time and DateTime classes require a date as well as a time. There’s a nice little discussion to read here: https://www.ruby-forum.com/topic/215970. Here’s what I did to get around this - not sure if it’s ok or will come back to bite me so any thoughts are very welcome: I assigned an arbitrary date (2000,1,1) to serve as a placeholder. So I have a string “10:30 am - 5:00pm”. How do I get this into a Time format?
+
+```ruby
+opening_string = week_hash[day].split(" - ")[0]
+t = Time.new(2000,1,1,(opening_string[0..1].to_i),(opening_string[3..4].to_i))
+@open = t.strftime("%H:%M")
+closing_string = week_hash[day].split(" - ")[1]
+p = Time.new(2000,1,1,(closing_string[0..1].to_i+12),(closing_string[3..4].to_i))
+@close = p.strftime("%H:%M”)
+```
+
+It’s not pretty, but it seems to do the trick. If there’s a better way to do this, I’d like to know it.
+
+3) It was interesting to think about the structure of the project. I built one model whose purpose it is to scrape Yelp using nokogiri, and another model to build a museum instance using the data that was pulled from yelp. I had trouble with redundancy as there were methods in the two models that seemed to be doing the same thing. My initialize method for a Museum.new is a good example of this:
+
+```ruby
+     def initialize(yelp_object)
+          @yelp_object = yelp_object
+          @name = yelp_object.name
+          @schedule = yelp_object.schedule
+          set_week_hash
+          set_times(:wednesday)
+     end
+```
+Essentially the name and schedule instance variables are just pulling from the yelp-object methods with the same names. Seems weird.
+
+Anyway, I’m rambling - would love some feedback if anyone can provide!
+D 
+
+The code so far: https://github.com/dfenjves/is-it-open
