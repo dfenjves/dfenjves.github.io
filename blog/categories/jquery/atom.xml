@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Jquery, | Will Code For Foods]]></title>
+  <title><![CDATA[Category: Jquery | Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/blog/categories/jquery/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-04-18T14:43:21-04:00</updated>
+  <updated>2014-04-18T15:50:55-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -24,7 +24,10 @@
 
 <p>We built a section in the log where you can add fish that you&rsquo;ve seen on your dive. It&rsquo;s based on a scrape of common fish from wikipedia. Here&rsquo;s an example:</p>
 
-<p style="text-align:center;"><img src="/images/ajaxpic1.png"></p>
+<p style="text-align:center;"><img src="/images/ajaxpic1.png" width="600"></p>
+
+<!-- more -->
+
 
 <p>Now let&rsquo;s say I didn&rsquo;t actually see a manefish on my most recent dive. How would I remove it? We need to figure out the following steps:</p>
 
@@ -39,7 +42,7 @@
 
 <p><strong>Part 1 &ndash; Display a Remove Button on hover using CSS:</strong></p>
 
-<p style="text-align:center;"><img src="/images/ajaxpic2.png"></p>
+<p style="text-align:center;"><img src="/images/ajaxpic2.png" width="300"></p>
 
 <p>Displaying a button on hover can be done in either javascript or css. In our case, we went with the more straightforward css. We created a button span with a specific class (&ldquo;fish-remove)&rdquo; that we placed withing the fish thumnail div. The button also contained data about the dive and the fish id (we added this data with ERB). Here is the html(with erb) for each fish &lsquo;card&rsquo;:</p>
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Postgres, | Will Code For Foods]]></title>
+  <title><![CDATA[Category: Postgres | Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/blog/categories/postgres/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-04-18T14:43:21-04:00</updated>
+  <updated>2014-04-18T15:50:55-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -19,6 +19,9 @@
     <updated>2014-04-18T13:54:43-04:00</updated>
     <id>http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres</id>
     <content type="html"><![CDATA[<p>Friday was equally one of the most frustrating and satisfying days I’ve had since I’ve started at the Flatrion School. We spent the day working on our pending labs/personal projects and I picked up where I’d left off on my venture to scrape yelp and display museum opening and closing hours dynamically. Once I had my css where I felt like it was somewhat presentable, I decided to set up my application on Heroku, something I imagined would be a simple and painless process. Was I wrong. What followed was five hours of dealing with obstacle after obstacle to get my app launched &ndash; so much so that at one point I had four TAs gathered around trying to help me get through the myriad of issues I was facing. Anyway, I’m going to try to explain what I did to get my app up and running, hopefully this will be useful to other people trying to do the same thing.</p>
+
+<!-- more -->
+
 
 <p><strong>Part 1:  Moving from SQLite3 to Postgres</strong></p>
 

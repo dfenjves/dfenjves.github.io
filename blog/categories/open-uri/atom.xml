@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Open-uri, | Will Code For Foods]]></title>
+  <title><![CDATA[Category: Open-uri | Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/blog/categories/open-uri/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-04-18T14:43:21-04:00</updated>
+  <updated>2014-04-18T15:50:55-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -25,6 +25,9 @@
 <p style="text-align:center;"> <em>How I felt when I scraped my first website</em></p>
 
 <p>But, as the cliched superhero movie line goes: Son, with great power comes great responsibility. Cue John Williams music.</p>
+
+<!-- more -->
+
 
 <p>What is that responsibility when it comes to web scraping, exactly? Well, web scraping lives in a grey area of internet law. It’s a weird twilight zone of legality, where people operate in an uncertain haze- unsure of whether scraping is within or beyond the bounds of the law. Let’s examine this grey area in further depth.</p>
 

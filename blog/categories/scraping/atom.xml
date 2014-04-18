@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Scraping, | Will Code For Foods]]></title>
+  <title><![CDATA[Category: Scraping | Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/blog/categories/scraping/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-04-18T14:43:21-04:00</updated>
+  <updated>2014-04-18T15:50:55-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>I’m piecing together a little Sinatra app that scrapes Yelp and displays schedule data for the many museums in New York. It’s an interesting exercise and has been pretty challenging so far. It’s not finished yet, but here are a few thoughts and lessons from my work:</p>
 
 <p>1) rspec &ndash; I had a lot of time getting rspec working, but I found that checking all of the dependencies and essentially testing each piece of the process was the best way to troubleshoot the bugs I was getting. Once I had spec working, I actually got into the groove of writing tests and then immediately solving those tests in the models I was building. The best way to go about it is to write the tests precisely and with a narrow enough scope that they don’t seem totally overwhelming when it comes to solving them. Also .to be is not the same as .to eq. ().to be() looks for an exact object match, as opposed to eq, which looks for the contents of the object to be the same.</p>
+
+<!-- more -->
+
 
 <p>2)There’s an issue with the Time object in ruby. Sometimes you need times without dates &ndash; as is the case with a schedule: The MoMA is open from 8:30am to 5:30pm on Wednesdays &ndash; but it seems that the Time and DateTime classes require a date as well as a time. There’s a nice little discussion to read here: <a href="https://www.ruby-forum.com/topic/215970.">https://www.ruby-forum.com/topic/215970.</a> Here’s what I did to get around this &ndash; not sure if it’s ok or will come back to bite me so any thoughts are very welcome: I assigned an arbitrary date (2000,1,1) to serve as a placeholder. So I have a string “10:30 am &ndash; 5:00pm”. How do I get this into a Time format?</p>
 
@@ -70,6 +73,9 @@ D</p>
 <p style="text-align:center;"> <em>How I felt when I scraped my first website</em></p>
 
 <p>But, as the cliched superhero movie line goes: Son, with great power comes great responsibility. Cue John Williams music.</p>
+
+<!-- more -->
+
 
 <p>What is that responsibility when it comes to web scraping, exactly? Well, web scraping lives in a grey area of internet law. It’s a weird twilight zone of legality, where people operate in an uncertain haze- unsure of whether scraping is within or beyond the bounds of the law. Let’s examine this grey area in further depth.</p>
 

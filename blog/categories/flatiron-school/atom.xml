@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Flatiron | Will Code For Foods]]></title>
-  <link href="http://dfenjves.github.io/blog/categories/flatiron/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Flatiron School | Will Code For Foods]]></title>
+  <link href="http://dfenjves.github.io/blog/categories/flatiron-school/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-04-18T14:43:21-04:00</updated>
+  <updated>2014-04-18T15:50:55-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -24,7 +24,10 @@
 
 <p>We built a section in the log where you can add fish that you&rsquo;ve seen on your dive. It&rsquo;s based on a scrape of common fish from wikipedia. Here&rsquo;s an example:</p>
 
-<p style="text-align:center;"><img src="/images/ajaxpic1.png"></p>
+<p style="text-align:center;"><img src="/images/ajaxpic1.png" width="600"></p>
+
+<!-- more -->
+
 
 <p>Now let&rsquo;s say I didn&rsquo;t actually see a manefish on my most recent dive. How would I remove it? We need to figure out the following steps:</p>
 
@@ -39,7 +42,7 @@
 
 <p><strong>Part 1 &ndash; Display a Remove Button on hover using CSS:</strong></p>
 
-<p style="text-align:center;"><img src="/images/ajaxpic2.png"></p>
+<p style="text-align:center;"><img src="/images/ajaxpic2.png" width="300"></p>
 
 <p>Displaying a button on hover can be done in either javascript or css. In our case, we went with the more straightforward css. We created a button span with a specific class (&ldquo;fish-remove)&rdquo; that we placed withing the fish thumnail div. The button also contained data about the dive and the fish id (we added this data with ERB). Here is the html(with erb) for each fish &lsquo;card&rsquo;:</p>
 
@@ -214,6 +217,9 @@ render :json =&gt; { :head =&gt; :ok }
     <id>http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres</id>
     <content type="html"><![CDATA[<p>Friday was equally one of the most frustrating and satisfying days I’ve had since I’ve started at the Flatrion School. We spent the day working on our pending labs/personal projects and I picked up where I’d left off on my venture to scrape yelp and display museum opening and closing hours dynamically. Once I had my css where I felt like it was somewhat presentable, I decided to set up my application on Heroku, something I imagined would be a simple and painless process. Was I wrong. What followed was five hours of dealing with obstacle after obstacle to get my app launched &ndash; so much so that at one point I had four TAs gathered around trying to help me get through the myriad of issues I was facing. Anyway, I’m going to try to explain what I did to get my app up and running, hopefully this will be useful to other people trying to do the same thing.</p>
 
+<!-- more -->
+
+
 <p><strong>Part 1:  Moving from SQLite3 to Postgres</strong></p>
 
 <p>Heroku doesn’t work with SQLite 3, so the first challenge was to move is-it-open-nyc to postgres. Here are the steps to make this happen:</p>
@@ -286,6 +292,9 @@ That&rsquo;s it. There are a LOT of steps to go through, but if you&rsquo;ve don
 
 <p>1) rspec &ndash; I had a lot of time getting rspec working, but I found that checking all of the dependencies and essentially testing each piece of the process was the best way to troubleshoot the bugs I was getting. Once I had spec working, I actually got into the groove of writing tests and then immediately solving those tests in the models I was building. The best way to go about it is to write the tests precisely and with a narrow enough scope that they don’t seem totally overwhelming when it comes to solving them. Also .to be is not the same as .to eq. ().to be() looks for an exact object match, as opposed to eq, which looks for the contents of the object to be the same.</p>
 
+<!-- more -->
+
+
 <p>2)There’s an issue with the Time object in ruby. Sometimes you need times without dates &ndash; as is the case with a schedule: The MoMA is open from 8:30am to 5:30pm on Wednesdays &ndash; but it seems that the Time and DateTime classes require a date as well as a time. There’s a nice little discussion to read here: <a href="https://www.ruby-forum.com/topic/215970.">https://www.ruby-forum.com/topic/215970.</a> Here’s what I did to get around this &ndash; not sure if it’s ok or will come back to bite me so any thoughts are very welcome: I assigned an arbitrary date (2000,1,1) to serve as a placeholder. So I have a string “10:30 am &ndash; 5:00pm”. How do I get this into a Time format?</p>
 
 <p><code>ruby
@@ -334,6 +343,9 @@ D</p>
 <p style="text-align:center;"> <em>How I felt when I scraped my first website</em></p>
 
 <p>But, as the cliched superhero movie line goes: Son, with great power comes great responsibility. Cue John Williams music.</p>
+
+<!-- more -->
+
 
 <p>What is that responsibility when it comes to web scraping, exactly? Well, web scraping lives in a grey area of internet law. It’s a weird twilight zone of legality, where people operate in an uncertain haze- unsure of whether scraping is within or beyond the bounds of the law. Let’s examine this grey area in further depth.</p>
 
