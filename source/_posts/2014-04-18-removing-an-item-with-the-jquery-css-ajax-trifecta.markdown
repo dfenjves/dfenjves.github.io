@@ -3,7 +3,7 @@ layout: post
 title: "Removing an Item with the Jquery-CSS-Ajax Trifecta"
 date: 2014-04-18 14:27:04 -0400
 comments: true
-categories: ajax, jquery, css, removing images, flatiron school
+categories: [ajax, jquery, css, removing images, flatiron school]
 ---
 
 Recently I've been working on a basic dive logging application with my buddy Chris from caguthrie.com. The idea is to take the very manual booklet that divers have to fill out after a dive and bring it online. Similar products like this exist, but we wanted to make our own. 
@@ -12,7 +12,9 @@ I'm using this project to beef up my javascript/ajax skills and as such, will be
 
 We built a section in the log where you can add fish that you've seen on your dive. It's based on a scrape of common fish from wikipedia. Here's an example:
 
-->{% img /images/ajaxpic1.png %}<-
+->{% img /images/ajaxpic1.png 600 %}<-
+
+<!-- more -->
 
 Now let's say I didn't actually see a manefish on my most recent dive. How would I remove it? We need to figure out the following steps:
 
@@ -24,7 +26,7 @@ Let's go in to each of these steps in more detail:
 
 **Part 1 - Display a Remove Button on hover using CSS:**
 
-->{% img /images/ajaxpic2.png %}<-
+->{% img /images/ajaxpic2.png 300%}<-
 
 
 Displaying a button on hover can be done in either javascript or css. In our case, we went with the more straightforward css. We created a button span with a specific class ("fish-remove)" that we placed withing the fish thumnail div. The button also contained data about the dive and the fish id (we added this data with ERB). Here is the html(with erb) for each fish 'card':

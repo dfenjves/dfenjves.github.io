@@ -3,12 +3,14 @@ layout: post
 title: "Notes from a Weekend of Hacking"
 date: 2014-04-18 13:53:45 -0400
 comments: true
-categories: new york, flatiron school, scraping, nokogiri
+categories: [new york, flatiron school, scraping, nokogiri]
 ---
 
 I’m piecing together a little Sinatra app that scrapes Yelp and displays schedule data for the many museums in New York. It’s an interesting exercise and has been pretty challenging so far. It’s not finished yet, but here are a few thoughts and lessons from my work:
 
 1) rspec - I had a lot of time getting rspec working, but I found that checking all of the dependencies and essentially testing each piece of the process was the best way to troubleshoot the bugs I was getting. Once I had spec working, I actually got into the groove of writing tests and then immediately solving those tests in the models I was building. The best way to go about it is to write the tests precisely and with a narrow enough scope that they don’t seem totally overwhelming when it comes to solving them. Also .to be is not the same as .to eq. ().to be() looks for an exact object match, as opposed to eq, which looks for the contents of the object to be the same.
+
+<!-- more -->
 
 2)There’s an issue with the Time object in ruby. Sometimes you need times without dates - as is the case with a schedule: The MoMA is open from 8:30am to 5:30pm on Wednesdays - but it seems that the Time and DateTime classes require a date as well as a time. There’s a nice little discussion to read here: https://www.ruby-forum.com/topic/215970. Here’s what I did to get around this - not sure if it’s ok or will come back to bite me so any thoughts are very welcome: I assigned an arbitrary date (2000,1,1) to serve as a placeholder. So I have a string “10:30 am - 5:00pm”. How do I get this into a Time format?
 
