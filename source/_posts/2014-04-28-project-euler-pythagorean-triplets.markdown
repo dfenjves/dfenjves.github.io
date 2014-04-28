@@ -3,7 +3,7 @@ layout: post
 title: "Project Euler - Pythagorean Triplets"
 date: 2014-04-28 10:24:30 -0400
 comments: true
-categories: 
+categories: [project euler, math problems, ruby, pythagorean triplets]
 ---
 
 I've been trying to crank through Project Euler questions over the past week or so. They are pretty challenging at first sight, but I'm finding that after looking at them for a few minutes, patterns start revealing themselves and the problem becomes much clearer. Today's question is the following:
