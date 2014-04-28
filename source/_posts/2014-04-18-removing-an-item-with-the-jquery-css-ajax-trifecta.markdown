@@ -18,9 +18,9 @@ We built a section in the log where you can add fish that you've seen on your di
 
 Now let's say I didn't actually see a manefish on my most recent dive. How would I remove it? We need to figure out the following steps:
 
-+ Display a remove button when you hover over a fish.
-+ Remove the fish when the remove button is pressed.
-+ Send a request to the server to remove the association between the dive and the fish.
+ 1) Display a remove button when you hover over a fish.</br>
+ 2) Remove the fish when the remove button is pressed.</br>
+ 3) Send a request to the server to remove the association between the dive and the fish.
 
 Let's go in to each of these steps in more detail:
 
