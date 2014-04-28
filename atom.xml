@@ -4,7 +4,7 @@
   <title><![CDATA[Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-04-18T15:50:55-04:00</updated>
+  <updated>2014-04-28T14:32:09-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Project Euler - Pythagorean Triplets]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/28/project-euler-pythagorean-triplets/"/>
+    <updated>2014-04-28T10:24:30-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/28/project-euler-pythagorean-triplets</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been trying to crank through Project Euler questions over the past week or so. They are pretty challenging at first sight, but I&rsquo;m finding that after looking at them for a few minutes, patterns start revealing themselves and the problem becomes much clearer. Today&rsquo;s question is the following:</p>
+
+<blockquote><p>A Pythagorean triplet is a set of three natural numbers, a &lt; b &lt; c, for which,</p>
+
+<p>a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup>
+For example, 3<sup>2</sup> + 4<sup>2</sup> = 9 + 16 = 25 = 5<sup>2</sup>.</p>
+
+<p>There exists exactly one Pythagorean triplet for which a + b + c = 1000.</p>
+
+<p>Find the product abc</p></blockquote>
+
+<!-- more -->
+
+
+<p>I figure that the best way to approach these problems is to break them down in to manageable chunks that I can chain together to get a final answer. In this situation, I broke the problem down like this:</p>
+
+<p>1) Initialize an instance of a class with an instance variable equal to the number that is the sum of a + b + c.</p>
+
+<p>2) Get all three number combinations that add up to this number.</p>
+
+<p>3) Filter these combinations to those where a &lt; b &lt; c</p>
+
+<p>4) Check available combinations for pythagorean triplet-ness</p>
+
+<p>5) Find the product of the numbers in the triplet.</p>
+
+<h3>The Breakdown</h3>
+
+<h4>Initialize an instance of a class with an instance variable equal to the number that is the sum of a + b + c.</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">sum</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@sum</span> <span class="o">=</span> <span class="n">sum</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty straightforward. Set the @sum instance variable to whatever the sum is that we&rsquo;re given at the start of the problem (in this case, 1000).</p>
+
+<h4>Get all three number combinations that add up to the sum.</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">combinations</span>
+</span><span class='line'>  <span class="n">combinations_adding_to_n</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="vi">@sum</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">a</span><span class="o">|</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="vi">@sum</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">b</span><span class="o">|</span>
+</span><span class='line'>          <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="vi">@sum</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>              <span class="n">combinations_adding_to_n</span> <span class="o">&lt;&lt;</span> <span class="o">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">]</span> <span class="k">if</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">c</span> <span class="o">==</span> <span class="vi">@sum</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">combinations_adding_to_n</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;m creating a series of three nested loops, where the variable being set up for each loop is a, b, and c, respectively. Within the last loop I add [a,b,c] to the cobinations_adding_to_n array if the sum of a,b, and c is equal to the sum we&rsquo;ve initialize the class instance with.</p>
+
+<h4>Filter the combinations to those where a &lt; b &lt; c</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">ordered_ascending_sum</span>
+</span><span class='line'>  <span class="n">combinations</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">array_sum</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">array_sum</span> <span class="k">if</span> <span class="n">array_sum</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">array_sum</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="n">array_sum</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">array_sum</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">.</span><span class="n">compact</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We use the .collect method to create an array where the only items that are stored are those from combinations where a &lt; b &lt; c, or the the array&rsquo;s value at 0 index is less that its value at 1 index and its value at 1 index is less than its value 2 index. I use compact at the end of this to get rid of nil values in the array.</p>
+
+<h4>Check available combinations for pythagorean triplet-ness</h4>
+
+<p>I built this method to check if an array [a,b,c] is a pythagorean triplet:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">is_pythagorean_triplet?</span><span class="p">(</span><span class="n">input_array</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">input_array</span><span class="o">[</span><span class="mi">0</span><span class="o">]**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">input_array</span><span class="o">[</span><span class="mi">1</span><span class="o">]**</span><span class="mi">2</span> <span class="o">==</span> <span class="n">input_array</span><span class="o">[</span><span class="mi">2</span><span class="o">]**</span><span class="mi">2</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Test each of your possible combinations for pythagorean triplet-ness:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">triplet_for_n</span>
+</span><span class='line'>  <span class="n">ordered_ascending_sum</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">abc</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">abc</span> <span class="k">if</span> <span class="n">is_pythagorean_triplet?</span><span class="p">(</span><span class="n">abc</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">.</span><span class="n">compact</span><span class="o">.</span><span class="n">flatten</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will provide the one array where [a,b,c] is a pythagorean triplet. On to our last step:</p>
+
+<h4>Find the Product of the Numbers in the Triplet</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">product_of_triplet</span>
+</span><span class='line'>  <span class="n">triplet_for_n</span><span class="o">.</span><span class="n">reduce</span><span class="o">[</span><span class="ss">:*</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it! We get the when a+b+c = 1000, we run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">test</span> <span class="o">=</span> <span class="no">Triplet</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="nb">test</span><span class="o">.</span><span class="n">product_of_triplet</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And our answer is&hellip; Ha. You thought I&rsquo;d give it away here. You&rsquo;ll have to run this code yourself to find out!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Removing an Item With the Jquery-CSS-Ajax Trifecta]]></title>
@@ -31,12 +177,9 @@
 
 <p>Now let&rsquo;s say I didn&rsquo;t actually see a manefish on my most recent dive. How would I remove it? We need to figure out the following steps:</p>
 
-<ul>
-<li>Display a remove button when you hover over a fish.</li>
-<li>Remove the fish when the remove button is pressed.</li>
-<li>Send a request to the server to remove the association between the dive and the fish.</li>
-</ul>
-
+<p> 1) Display a remove button when you hover over a fish.</br>
+ 2) Remove the fish when the remove button is pressed.</br>
+ 3) Send a request to the server to remove the association between the dive and the fish.</p>
 
 <p>Let&rsquo;s go in to each of these steps in more detail:</p>
 
@@ -454,7 +597,7 @@ D</p>
     <id>http://dfenjves.github.io/blog/2014/04/18/how-legal-is-web-scraping</id>
     <content type="html"><![CDATA[<p>I’ve recently learned how to perform basic web scraping using nothing but Nokogiri, Open-Uri, Ruby, a paperclip, and the internet. It’s an awesome feeling &ndash; to be able to MacGyver your way deep in to the code of a massive website and pull out exactly what you need, throw it into a database, and then manipulate that data to your heart’s content. It’s like I’ve discovered that I have a secret superpower, and am only beginning to see what I can do with it.</p>
 
-<p style="text-align:center;"> <img src="http://dfenjves.github.io/images/macgyver.jpg"></p>
+<p style="text-align:center;"> <img src="http://dfenjves.github.io/images/macgyver.jpg" alt="MacGyver" /></p>
 
 <p style="text-align:center;"> <em>How I felt when I scraped my first website</em></p>
 

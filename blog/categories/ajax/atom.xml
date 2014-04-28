@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ajax | Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/blog/categories/ajax/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-04-18T15:50:55-04:00</updated>
+  <updated>2014-04-28T14:32:09-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -31,12 +31,9 @@
 
 <p>Now let&rsquo;s say I didn&rsquo;t actually see a manefish on my most recent dive. How would I remove it? We need to figure out the following steps:</p>
 
-<ul>
-<li>Display a remove button when you hover over a fish.</li>
-<li>Remove the fish when the remove button is pressed.</li>
-<li>Send a request to the server to remove the association between the dive and the fish.</li>
-</ul>
-
+<p> 1) Display a remove button when you hover over a fish.</br>
+ 2) Remove the fish when the remove button is pressed.</br>
+ 3) Send a request to the server to remove the association between the dive and the fish.</p>
 
 <p>Let&rsquo;s go in to each of these steps in more detail:</p>
 
