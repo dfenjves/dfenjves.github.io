@@ -116,4 +116,4 @@ Here is a breakdown of iterations for each of our `is_prime?` methods:
 </table>
 
 
-Cool, eh? That's all I have for today. Time to get back to punishing the Decepticons.
+Cool, eh? That's all I have for today. Time to get back to battling the Decepticons.
