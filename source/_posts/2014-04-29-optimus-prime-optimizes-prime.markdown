@@ -5,7 +5,7 @@ date: 2014-04-29 10:04:04 -0400
 comments: true
 categories: [prime numbers, project euler, optimization]
 ---
--> ![Optimus Prime](/images/optimus.jpg) <-
+-> ![Optimus Prime](/images/Optimus.jpg) <-
 
 Hi there folks. Optimus Prime here. Few of you know this, but when I'm not out blowing up bad guys with my ion-blaster and swinging my energon-axe, I enjoy solving Project Euler problems over a bowl of oatmeal and a cup of coffee at breakfast. Weird, right? It's like seeing your teacher walking out on the street, or bumping in to your shrink at the grocery store. Anyway...
 
