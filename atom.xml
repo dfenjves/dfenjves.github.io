@@ -4,7 +4,7 @@
   <title><![CDATA[Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-04-29T11:42:17-04:00</updated>
+  <updated>2014-05-20T10:57:17-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Monday Learnings]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/05/19/monday-learnings/"/>
+    <updated>2014-05-19T16:57:27-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/05/19/monday-learnings</id>
+    <content type="html"><![CDATA[<p>I learned some cool things today, which I&rsquo;d like to share here.</p>
+
+<p>1) The <code>each_cons</code> method. It&rsquo;s great. While working on <a href="https://projecteuler.net/problem=11">Project Euler #11</a> with a friend, he showed me this method. It is applied to an array and takes an argument for n elements &ndash; it then returns an enumerator with the different variations of 3 consecutive elements from the array. I&rsquo;m not sure I&rsquo;m doing it justice, so here is an example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="o">]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">each_cons</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span> <span class="mi">3</span> <span class="c1"># =&gt; [[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], [5, 6, 7], [6, 7, 8]]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This was very helpful in finding the products of each possible set of four consecutive elements (horizontally) in the problem&rsquo;s grid. Nice.</p>
+
+<!-- more -->
+
+
+<p>2)Editing a Method in Pry.
+Very helpful. Say you&rsquo;ve defined a method in pry:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Hello&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you type <code>edit hello</code> in pry after this, it will open up a text editor for you to modify the method. As soon as you close and save the document, it will reload the method in pry for you to play with.</p>
+
+<p>3) Using the ampersand to turn a method symbol into a proc. Check it out:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;head&quot;</span><span class="p">,</span> <span class="s2">&quot;shoulders&quot;</span><span class="p">,</span> <span class="s2">&quot;knees&quot;</span><span class="p">,</span> <span class="s2">&quot;toes&quot;</span><span class="o">].</span><span class="n">collect</span> <span class="p">{</span><span class="o">|</span><span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">reverse</span><span class="p">}</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;daeh&quot;, &quot;sredluohs&quot;, &quot;seenk&quot;, &quot;seot&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Is the same as doing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;head&quot;</span><span class="p">,</span> <span class="s2">&quot;shoulders&quot;</span><span class="p">,</span> <span class="s2">&quot;knees&quot;</span><span class="p">,</span> <span class="s2">&quot;toes&quot;</span><span class="o">].</span><span class="n">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:reverse</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;daeh&quot;, &quot;sredluohs&quot;, &quot;seenk&quot;, &quot;seot&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is because the ampersand converts a symbol object to a proc for use with enumerable methods.</p>
+
+<p>Small wins. That&rsquo;s what it&rsquo;s all about.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Optimus Prime Optimizes Prime]]></title>
