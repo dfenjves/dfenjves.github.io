@@ -13,7 +13,7 @@
   <meta name="author" content="Daniel Fenjves">
 
   
-  <meta name="description" content="All Posts Monday Learnings I learned some cool things today, which I&rsquo;d like to share here. 1) The each_cons method. It&rsquo;s great. While &hellip;">
+  <meta name="description" content="All Posts How to Split an Array Based on a Fixed Length (Hint: You Don&#8217;t Use .split) Say you have a string that you need to split up based on &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,62 @@
       <div class="row">
         <div class="col-md-offset-3 col-md-6">
           <article>
+  <h2><a href="/blog/2014/05/27/how-to-split-an-array-based-on-a-fixed-length-hint-you-dont-use-split/">How to Split an Array Based on a Fixed Length (Hint: You Don&#8217;t Use .split)</a></h2>
+  
+  <p>
+    <p>Say you have a string that you need to split up based on a fixed length of characters (in this case, every five: <code>"jamesjonesspiesrabidbirds"</code>. Unfortunately, the split method doesn&rsquo;t help us here.</p>
+
+
+
+
+<p>Instead, we can use <code>.scan</code>. This method looks for regex matches and adds them to an array, rather than taking a string and breaking it up based on a delimiter. It&rsquo;s a useful method in those cases where .split just can&rsquo;t handle the job.</p>
+
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;jamesjonesspiesrabidbirds&quot;</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/.{5}/</span><span class="p">)</span> <span class="c1">#=&gt; [&quot;james&quot;, &quot;jones&quot;, &quot;spies&quot;, &quot;rabid&quot;, &quot;birds&quot;]</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>The regex <code>/.{5}/</code> stands for &ldquo;exactly 5 of any character&rdquo; &ndash; the . means &lsquo;any character&rsquo;, and the curly braces with one number means &ldquo;exactly this amount&rdquo;. The scan method adds every five characters of the string to the array it returns, to give us [&ldquo;james&rdquo;, &ldquo;jones&rdquo;, &ldquo;spies&rdquo;, &ldquo;rabid&rdquo;, &ldquo;birds&rdquo;].</p>
+
+
+  </p>
+  <span class="meta">
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-05-27T11:36:42-04:00" pubdate data-updated="true">May 27<span>th</span>, 2014</time> in 
+    
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/arrays/'>arrays</a>, <a class='category' href='/blog/categories/fixed-length/'>fixed length</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/scan/'>scan</a>, <a class='category' href='/blog/categories/split/'>split</a>
+  
+</span>
+
+
+  </span>
+
+  
+</article>
+
+        </div>
+      </div>
+      
+      
+      <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+          <article>
   <h2><a href="/blog/2014/05/19/monday-learnings/">Monday Learnings</a></h2>
   
   <p>
@@ -110,7 +166,7 @@
 in
 <span class="categories">
   
-    <a class='category' href='/blog/categories/pry/'>pry</a>
+    <a class='category' href='/blog/categories/ampersand/'>ampersand</a>, <a class='category' href='/blog/categories/methods/'>methods</a>, <a class='category' href='/blog/categories/pry/'>pry</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/shortcuts/'>shortcuts</a>
   
 </span>
 

@@ -9,11 +9,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Pry - Will Code For Foods</title>
+  <title>Category: Scan - Will Code For Foods</title>
   <meta name="author" content="Daniel Fenjves">
 
   
-  <meta name="description" content="Category: pry">
+  <meta name="description" content="Category: scan">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dfenjves.github.ioblog/categories/pry">
+  <link rel="canonical" href="http://dfenjves.github.ioblog/categories/scan">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Will Code For Foods" type="application/atom+xml">
@@ -55,7 +55,7 @@
   <div class="container">
     <div class="row">
       <div class="list-title col-md-offset-3 col-md-6">
-        <h4>Posts in pry</h4>
+        <h4>Posts in scan</h4>
       </div>
     </div>
   </div>
@@ -67,21 +67,21 @@
         <div class="row">
           <div class="col-md-offset-3 col-md-6">
             <article>
-  <h2><a href="/blog/2014/05/19/monday-learnings/">Monday Learnings</a></h2>
+  <h2><a href="/blog/2014/05/27/how-to-split-an-array-based-on-a-fixed-length-hint-you-dont-use-split/">How to Split an Array Based on a Fixed Length (Hint: You Don't Use .split)</a></h2>
   
   <p>
-    <p>I learned some cool things today, which I&rsquo;d like to share here.</p>
+    <p>Say you have a string that you need to split up based on a fixed length of characters (in this case, every five: <code>"jamesjonesspiesrabidbirds"</code>. Unfortunately, the split method doesn&rsquo;t help us here.</p>
 
-<p>1) The <code>each_cons</code> method. It&rsquo;s great. While working on <a href="https://projecteuler.net/problem=11">Project Euler #11</a> with a friend, he showed me this method. It is applied to an array and takes an argument for n elements &ndash; it then returns an enumerator with the different variations of 3 consecutive elements from the array. I&rsquo;m not sure I&rsquo;m doing it justice, so here is an example:</p>
+<p>Instead, we can use <code>.scan</code>. This method looks for regex matches and adds them to an array, rather than taking a string and breaking it up based on a delimiter. It&rsquo;s a useful method in those cases where .split just can&rsquo;t handle the job.</p>
 
 <p>```ruby</p>
 
-<pre><code>array = [1,2,3,4,5,6,7,8]
-array.each_cons(3).to_a 3 # =&gt; [[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], [5, 6, 7], [6, 7, 8]]
+<pre><code>"jamesjonesspiesrabidbirds".scan(/.{5}/) #=&gt; ["james", "jones", "spies", "rabid", "birds"]
 </code></pre>
 
-<p>```
-This was very helpful in finding the products of each possible set of four consecutive elements (horizontally) in the problem&rsquo;s grid. Nice.</p>
+<p>```</p>
+
+<p>The regex <code>/.{5}/</code> stands for &ldquo;exactly 5 of any character&rdquo; &ndash; the . means &lsquo;any character&rsquo;, and the curly braces with one number means &ldquo;exactly this amount&rdquo;. The scan method adds every five characters of the string to the array it returns, to give us [&ldquo;james&rdquo;, &ldquo;jones&rdquo;, &ldquo;spies&rdquo;, &ldquo;rabid&rdquo;, &ldquo;birds&rdquo;].</p>
 
   </p>
   <span class="meta">
@@ -98,21 +98,19 @@ This was very helpful in finding the products of each possible set of four conse
 
 
 
-<time datetime="2014-05-19T16:57:27-04:00" pubdate data-updated="true">May 19<span>th</span>, 2014</time> in 
+<time datetime="2014-05-27T11:36:42-04:00" pubdate data-updated="true">May 27<span>th</span>, 2014</time> in 
     
 
 in
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ampersand/'>ampersand</a>, <a class='category' href='/blog/categories/methods/'>methods</a>, <a class='category' href='/blog/categories/pry/'>pry</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/shortcuts/'>shortcuts</a>
+    <a class='category' href='/blog/categories/arrays/'>arrays</a>, <a class='category' href='/blog/categories/fixed-length/'>fixed length</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/scan/'>scan</a>, <a class='category' href='/blog/categories/split/'>split</a>
   
 </span>
 
 
   </span>
 
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2014/05/19/monday-learnings/">Read on &rarr;</a>
   
 </article>
 

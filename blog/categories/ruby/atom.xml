@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-05-20T11:03:22-04:00</updated>
+  <updated>2014-05-27T11:47:55-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Split an Array Based on a Fixed Length (Hint: You Don't Use .split)]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/05/27/how-to-split-an-array-based-on-a-fixed-length-hint-you-dont-use-split/"/>
+    <updated>2014-05-27T11:36:42-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/05/27/how-to-split-an-array-based-on-a-fixed-length-hint-you-dont-use-split</id>
+    <content type="html"><![CDATA[<p>Say you have a string that you need to split up based on a fixed length of characters (in this case, every five: <code>"jamesjonesspiesrabidbirds"</code>. Unfortunately, the split method doesn&rsquo;t help us here.</p>
+
+<p>Instead, we can use <code>.scan</code>. This method looks for regex matches and adds them to an array, rather than taking a string and breaking it up based on a delimiter. It&rsquo;s a useful method in those cases where .split just can&rsquo;t handle the job.</p>
+
+<p>```ruby</p>
+
+<pre><code>"jamesjonesspiesrabidbirds".scan(/.{5}/) #=&gt; ["james", "jones", "spies", "rabid", "birds"]
+</code></pre>
+
+<p>```</p>
+
+<p>The regex <code>/.{5}/</code> stands for &ldquo;exactly 5 of any character&rdquo; &ndash; the . means &lsquo;any character&rsquo;, and the curly braces with one number means &ldquo;exactly this amount&rdquo;. The scan method adds every five characters of the string to the array it returns, to give us [&ldquo;james&rdquo;, &ldquo;jones&rdquo;, &ldquo;spies&rdquo;, &ldquo;rabid&rdquo;, &ldquo;birds&rdquo;].</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Monday Learnings]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/05/19/monday-learnings/"/>
+    <updated>2014-05-19T16:57:27-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/05/19/monday-learnings</id>
+    <content type="html"><![CDATA[<p>I learned some cool things today, which I&rsquo;d like to share here.</p>
+
+<p>1) The <code>each_cons</code> method. It&rsquo;s great. While working on <a href="https://projecteuler.net/problem=11">Project Euler #11</a> with a friend, he showed me this method. It is applied to an array and takes an argument for n elements &ndash; it then returns an enumerator with the different variations of 3 consecutive elements from the array. I&rsquo;m not sure I&rsquo;m doing it justice, so here is an example:</p>
+
+<p>```ruby</p>
+
+<pre><code>array = [1,2,3,4,5,6,7,8]
+array.each_cons(3).to_a 3 # =&gt; [[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], [5, 6, 7], [6, 7, 8]]
+</code></pre>
+
+<p>```
+This was very helpful in finding the products of each possible set of four consecutive elements (horizontally) in the problem&rsquo;s grid. Nice.</p>
+
+<!-- more -->
+
+
+<p>2)Editing a Method in Pry.
+Very helpful. Say you&rsquo;ve defined a method in pry:</p>
+
+<p>```
+def hello</p>
+
+<pre><code>puts "Hello"
+</code></pre>
+
+<p>end
+<code>``
+If you type</code>edit hello` in pry after this, it will open up a text editor for you to modify the method. As soon as you close and save the document, it will reload the method in pry for you to play with.</p>
+
+<p>3) Using the ampersand to turn a method symbol into a proc. Check it out:
+```ruby
+[&ldquo;head&rdquo;, &ldquo;shoulders&rdquo;, &ldquo;knees&rdquo;, &ldquo;toes&rdquo;].collect {|word| word.reverse}</p>
+
+<h1>=> [&ldquo;daeh&rdquo;, &ldquo;sredluohs&rdquo;, &ldquo;seenk&rdquo;, &ldquo;seot&rdquo;]</h1>
+
+<p>```</p>
+
+<p>Is the same as doing:
+```
+[&ldquo;head&rdquo;, &ldquo;shoulders&rdquo;, &ldquo;knees&rdquo;, &ldquo;toes&rdquo;].collect(&amp;:reverse)</p>
+
+<h1>=> [&ldquo;daeh&rdquo;, &ldquo;sredluohs&rdquo;, &ldquo;seenk&rdquo;, &ldquo;seot&rdquo;]</h1>
+
+<p>```
+This is because the ampersand converts a symbol object to a proc for use with enumerable methods.</p>
+
+<p>Small wins. That&rsquo;s what it&rsquo;s all about.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Project Euler - Pythagorean Triplets]]></title>
