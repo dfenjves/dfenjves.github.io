@@ -3,7 +3,7 @@ layout: post
 title: "Monday Learnings"
 date: 2014-05-19 16:57:27 -0400
 comments: true
-categories: [pry, ]
+categories: [pry, ruby, methods, ampersand, shortcuts]
 ---
 
 I learned some cool things today, which I'd like to share here.
