@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Arrays | Will Code For Foods]]></title>
   <link href="http://dfenjves.github.io/blog/categories/arrays/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-05-27T11:47:55-04:00</updated>
+  <updated>2014-06-11T09:57:06-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Transpose Method, Explained.]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/06/11/the-transpose-method-explained/"/>
+    <updated>2014-06-11T08:50:30-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/06/11/the-transpose-method-explained</id>
+    <content type="html"><![CDATA[<p>The transpose method is a handy-dandy little method for rotating arrays on to their sides. Since a picture is worth a thousand words, here&rsquo;s a gif explaining how transpose works:</p>
+
+<p style="text-align:center;"><img src="/images/transpose-method.gif" width="600"></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Split an Array Based on a Fixed Length (Hint: You Don't Use .split)]]></title>
