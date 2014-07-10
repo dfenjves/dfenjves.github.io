@@ -13,8 +13,9 @@
   <meta name="author" content="Daniel Fenjves">
 
   
-  <meta name="description" content="Will Code For Foods
-a site about code. and food. but mostly code. about me I&#8217;m a Full-Stack Web Developer in New York City. In no particular &hellip;">
+  <meta name="description" content=".Mapless
+So much to learn, so many paths to take.
+A journey without a map. Notes from my adventures in code. about me I&#8217;m a Full-Stack Web &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -54,8 +55,10 @@ a site about code. and food. but mostly code. about me I&#8217;m a Full-Stack We
 
     <div class="home-page">
   <div class="hero">
-    <h1>Will Code For Foods</h1>
-<p>a site about code. and food. but mostly code.</p>
+    <h1>.Mapless</h1>
+<p>So much to learn, so many paths to take.</p>
+<p>A journey without a map.</p>
+<p> Notes from my adventures in code.</p>
 
   </div>
 
@@ -65,7 +68,7 @@ a site about code. and food. but mostly code. about me I&#8217;m a Full-Stack We
         <div class="row">
           <div id="about-me" class="col-md-offset-3 col-md-6">
   <h4>about me</h4>
-  <p>I&#8217;m a Full-Stack Web Developer in New York City. In no particular order, I like Ruby, Scrabble, Ajax, blues harmonica, improv comedy, Scuba diving, travel, and rails. This blog is about my adventures in code. </p>
+  <p>I&#8217;m a Full-Stack Web Developer in New York City. In no particular order, I like Ruby, Scrabble, Ajax, blues harmonica, improv comedy, Scuba diving, travel, and rails. This blog is about my adventures learning to code. I&#8217;m hoping to post insights, notes, and any tidbits I pick up along the way. </p>
   <div class="social-icon-list">
     <a title="Twitter" href="https://twitter.com/dfenjves"><img src="/images/glyphicons_social_31_twitter.png"/></a>
     <a title="GitHub" href="https://github.com/dfenjves"><img src="/images/glyphicons_social_21_github.png"/></a>
@@ -79,6 +82,82 @@ a site about code. and food. but mostly code. about me I&#8217;m a Full-Stack We
 
     <div class="article-list">
       <div class="container">
+        
+          
+          <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+              <article>
+  <h2><a href="/blog/2014/07/10/using-the-apply-function-in-javascript/">Using the &#8216;Apply&#8217; Function in Javascript</a></h2>
+  
+  <p>
+    <p>My foray into javascript has not been easy &ndash; It&rsquo;s meant working hard to get out of the mindset of Ruby and forcing myself into the discomfort of a relatively new language. Sort of like switching to French if you speak Spanish &ndash; there are many similarities, but relying on your knowledge of one language can actually be a debilitating crutch if you aren&rsquo;t carefully about what knowledge you transfer over.</p>
+
+
+
+
+<p>I&rsquo;ve been stuggling with understanding the <code>.apply</code> method in javascript. There isn&rsquo;t any really analogous function that I&rsquo;ve found in Ruby (there probably is, but I just don&rsquo;t know it yet&hellip;).</p>
+
+
+
+
+<p>One way <code>.apply</code> is used is to apply the elements in an array as arguments in a function. For example:</p>
+
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="c1">//=&gt; 4</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//but</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span> <span class="c1">//=&gt; NaN</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Instead of looping through each of the numbers in the array using <code>for</code> we can use the <code>apply</code> method to take the elements of the array and populate them into the function&rsquo;s arguments:</p>
+
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span> <span class="c1">//=&gt; 4</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Javascript is clicking. Slowly.</p>
+
+
+  </p>
+  <span class="meta">
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-07-10T15:33:56-04:00" pubdate data-updated="true">Jul 10<span>th</span>, 2014</time> in 
+    
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/apply/'>apply</a>, <a class='category' href='/blog/categories/functions/'>functions</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>
+  
+</span>
+
+
+  </span>
+
+  
+</article>
+
+            </div>
+          </div>
         
           
           <div class="row">
@@ -576,69 +655,6 @@ in
 
   
     <a class="full-article-link pull-right" rel="full-article" href="/blog/2014/04/18/notes-from-a-weekend-of-hacking/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2014/04/18/how-legal-is-web-scraping/">How Legal Is Web Scraping?&#8221;</a></h2>
-  
-  <p>
-    <p>I’ve recently learned how to perform basic web scraping using nothing but Nokogiri, Open-Uri, Ruby, a paperclip, and the internet. It’s an awesome feeling &ndash; to be able to MacGyver your way deep in to the code of a massive website and pull out exactly what you need, throw it into a database, and then manipulate that data to your heart’s content. It’s like I’ve discovered that I have a secret superpower, and am only beginning to see what I can do with it.</p>
-
-
-
-
-<p style="text-align:center;"> <img src="/images/macgyver.jpg" alt="MacGyver" /></p>
-
-
-
-
-<p style="text-align:center;"> <em>How I felt when I scraped my first website</em></p>
-
-
-
-
-<p>But, as the cliched superhero movie line goes: Son, with great power comes great responsibility. Cue John Williams music.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2014-04-18T13:53:13-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time> in 
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/flatiron-school/'>flatiron school</a>, <a class='category' href='/blog/categories/internet-law/'>internet law</a>, <a class='category' href='/blog/categories/law/'>law</a>, <a class='category' href='/blog/categories/nokogiri/'>nokogiri</a>, <a class='category' href='/blog/categories/open-uri/'>open-uri</a>, <a class='category' href='/blog/categories/scraping/'>scraping</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2014/04/18/how-legal-is-web-scraping/">Read on &rarr;</a>
   
 </article>
 
