@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Category: Ruby - .Mapless</title>
+  <meta name="author" content="Daniel Fenjves">
+
+  
+  <meta name="description" content="Category: ruby">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dfenjves.github.ioblog/categories/ruby">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title=".Mapless" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50172618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <div class="all-posts">
+  <div class="container">
+    <div class="row">
+      <div class="list-title col-md-offset-3 col-md-6">
+        <h4>Posts in ruby</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-list">
+    <div class="container">
+      
+        
+        <div class="row">
+          <div class="col-md-offset-3 col-md-6">
+            <article>
+  <h2><a href="/blog/2014/06/11/the-transpose-method-explained/">The Transpose Method, Explained.</a></h2>
+  
+  <p>
+    <p>The transpose method is a handy-dandy little method for rotating arrays on to their sides. Since a picture is worth a thousand words, here&rsquo;s a gif explaining how transpose works:</p>
+
+<p style="text-align:center;"><img src="/images/transpose-method.gif" width="600"></p>
+
+  </p>
+  <span class="meta">
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-06-11T08:50:30-04:00" pubdate data-updated="true">Jun 11<span>th</span>, 2014</time> in 
+    
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/arrays/'>arrays</a>, <a class='category' href='/blog/categories/methods/'>methods</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/transpose/'>transpose</a>
+  
+</span>
+
+
+  </span>
+
+  
+</article>
+
+          </div>
+        </div>
+      
+        
+        <div class="row">
+          <div class="col-md-offset-3 col-md-6">
+            <article>
+  <h2><a href="/blog/2014/05/27/how-to-split-an-array-based-on-a-fixed-length-hint-you-dont-use-split/">How to Split an Array Based on a Fixed Length (Hint: You Don't Use .split)</a></h2>
+  
+  <p>
+    <p>Say you have a string that you need to split up based on a fixed length of characters (in this case, every five: <code>"jamesjonesspiesrabidbirds"</code>. Unfortunately, the split method doesn&rsquo;t help us here.</p>
+
+<p>Instead, we can use <code>.scan</code>. This method looks for regex matches and adds them to an array, rather than taking a string and breaking it up based on a delimiter. It&rsquo;s a useful method in those cases where .split just can&rsquo;t handle the job.</p>
+
+<p>```ruby</p>
+
+<pre><code>"jamesjonesspiesrabidbirds".scan(/.{5}/) #=&gt; ["james", "jones", "spies", "rabid", "birds"]
+</code></pre>
+
+<p>```</p>
+
+<p>The regex <code>/.{5}/</code> stands for &ldquo;exactly 5 of any character&rdquo; &ndash; the . means &lsquo;any character&rsquo;, and the curly braces with one number means &ldquo;exactly this amount&rdquo;. The scan method adds every five characters of the string to the array it returns, to give us [&ldquo;james&rdquo;, &ldquo;jones&rdquo;, &ldquo;spies&rdquo;, &ldquo;rabid&rdquo;, &ldquo;birds&rdquo;].</p>
+
+  </p>
+  <span class="meta">
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-05-27T11:36:42-04:00" pubdate data-updated="true">May 27<span>th</span>, 2014</time> in 
+    
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/arrays/'>arrays</a>, <a class='category' href='/blog/categories/fixed-length/'>fixed length</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/scan/'>scan</a>, <a class='category' href='/blog/categories/split/'>split</a>
+  
+</span>
+
+
+  </span>
+
+  
+</article>
+
+          </div>
+        </div>
+      
+        
+        <div class="row">
+          <div class="col-md-offset-3 col-md-6">
+            <article>
+  <h2><a href="/blog/2014/05/19/monday-learnings/">Monday Learnings</a></h2>
+  
+  <p>
+    <p>I learned some cool things today, which I&rsquo;d like to share here.</p>
+
+<p>1) The <code>each_cons</code> method. It&rsquo;s great. While working on <a href="https://projecteuler.net/problem=11">Project Euler #11</a> with a friend, he showed me this method. It is applied to an array and takes an argument for n elements &ndash; it then returns an enumerator with the different variations of 3 consecutive elements from the array. I&rsquo;m not sure I&rsquo;m doing it justice, so here is an example:</p>
+
+<p>```ruby</p>
+
+<pre><code>array = [1,2,3,4,5,6,7,8]
+array.each_cons(3).to_a 3 # =&gt; [[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], [5, 6, 7], [6, 7, 8]]
+</code></pre>
+
+<p>```
+This was very helpful in finding the products of each possible set of four consecutive elements (horizontally) in the problem&rsquo;s grid. Nice.</p>
+
+  </p>
+  <span class="meta">
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-05-19T16:57:27-04:00" pubdate data-updated="true">May 19<span>th</span>, 2014</time> in 
+    
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ampersand/'>ampersand</a>, <a class='category' href='/blog/categories/methods/'>methods</a>, <a class='category' href='/blog/categories/pry/'>pry</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/shortcuts/'>shortcuts</a>
+  
+</span>
+
+
+  </span>
+
+  
+    <a class="full-article-link pull-right" rel="full-article" href="/blog/2014/05/19/monday-learnings/">Read on &rarr;</a>
+  
+</article>
+
+          </div>
+        </div>
+      
+        
+        <div class="row">
+          <div class="col-md-offset-3 col-md-6">
+            <article>
+  <h2><a href="/blog/2014/04/28/project-euler-pythagorean-triplets/">Project Euler - Pythagorean Triplets</a></h2>
+  
+  <p>
+    <p>I&rsquo;ve been trying to crank through Project Euler questions over the past week or so. They are pretty challenging at first sight, but I&rsquo;m finding that after looking at them for a few minutes, patterns start revealing themselves and the problem becomes much clearer. Today&rsquo;s question is the following:</p>
+
+<blockquote><p>A Pythagorean triplet is a set of three natural numbers, a &lt; b &lt; c, for which,</p>
+
+<p>a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup>
+For example, 3<sup>2</sup> + 4<sup>2</sup> = 9 + 16 = 25 = 5<sup>2</sup>.</p>
+
+<p>There exists exactly one Pythagorean triplet for which a + b + c = 1000.</p>
+
+<p>Find the product abc</p></blockquote>
+
+  </p>
+  <span class="meta">
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-04-28T10:24:30-04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2014</time> in 
+    
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/math-problems/'>math problems</a>, <a class='category' href='/blog/categories/project-euler/'>project euler</a>, <a class='category' href='/blog/categories/pythagorean-triplets/'>pythagorean triplets</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+  </span>
+
+  
+    <a class="full-article-link pull-right" rel="full-article" href="/blog/2014/04/28/project-euler-pythagorean-triplets/">Read on &rarr;</a>
+  
+</article>
+
+          </div>
+        </div>
+      
+        
+        <div class="row">
+          <div class="col-md-offset-3 col-md-6">
+            <article>
+  <h2><a href="/blog/2014/04/18/implementing-carrierwave-a-simple-guide/">Implementing CarrierWave - a Simple Guide</a></h2>
+  
+  <p>
+    <p>This weekend I decided to add file uploads to a small project I’ve been working on (mostly to get some additional rails practice). After searching for a while, I came across Carrierwave, which is a simple ruby gem that sets you up with easy image uploading and processing.</p>
+
+<p>The setup was a lot easier than I expected. First step was to add the carrierwave gem to the project’s gemfile and run ‘bundle install’. Straightforward. After this, run ‘rails generate uploader {uploader_name}’ (in my case, the name was guests (as in hotel guests). In your app file you’ll now find an ‘uploaders’ directory, in which you will find the uploader class that you just generated. Cool. Leave that there for now.</p>
+
+  </p>
+  <span class="meta">
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-04-18T13:55:53-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time> in 
+    
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/carrierwave/'>carrierwave</a>, <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/flatrion-school/'>flatrion school</a>, <a class='category' href='/blog/categories/gem/'>gem</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/uploading/'>uploading</a>
+  
+</span>
+
+
+  </span>
+
+  
+    <a class="full-article-link pull-right" rel="full-article" href="/blog/2014/04/18/implementing-carrierwave-a-simple-guide/">Read on &rarr;</a>
+  
+</article>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/dfenjves"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+
+    <a href="mailto:"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

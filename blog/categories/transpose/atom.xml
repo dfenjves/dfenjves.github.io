@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Transpose | .Mapless]]></title>
+  <link href="http://dfenjves.github.io/blog/categories/transpose/atom.xml" rel="self"/>
+  <link href="http://dfenjves.github.io/"/>
+  <updated>2014-08-29T15:57:28-04:00</updated>
+  <id>http://dfenjves.github.io/</id>
+  <author>
+    <name><![CDATA[Daniel Fenjves]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The Transpose Method, Explained.]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/06/11/the-transpose-method-explained/"/>
+    <updated>2014-06-11T08:50:30-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/06/11/the-transpose-method-explained</id>
+    <content type="html"><![CDATA[<p>The transpose method is a handy-dandy little method for rotating arrays on to their sides. Since a picture is worth a thousand words, here&rsquo;s a gif explaining how transpose works:</p>
+
+<p style="text-align:center;"><img src="/images/transpose-method.gif" width="600"></p>
+]]></content>
+  </entry>
+  
+</feed>

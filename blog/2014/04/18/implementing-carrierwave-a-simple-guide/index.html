@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Implementing CarrierWave - a Simple Guide - .Mapless</title>
+  <meta name="author" content="Daniel Fenjves">
+
+  
+  <meta name="description" content="Implementing CarrierWave - a Simple Guide written Apr 18th, 2014 in carrierwave, coding, flatrion school, gem, rails, ruby, uploading This weekend I &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dfenjves.github.io/blog/2014/04/18/implementing-carrierwave-a-simple-guide">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title=".Mapless" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50172618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Implementing CarrierWave - a Simple Guide</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-04-18T13:55:53-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/carrierwave/'>carrierwave</a>, <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/flatrion-school/'>flatrion school</a>, <a class='category' href='/blog/categories/gem/'>gem</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/uploading/'>uploading</a>
+  
+</span>
+
+
+        </div>
+        <p>This weekend I decided to add file uploads to a small project I’ve been working on (mostly to get some additional rails practice). After searching for a while, I came across Carrierwave, which is a simple ruby gem that sets you up with easy image uploading and processing.</p>
+
+<p>The setup was a lot easier than I expected. First step was to add the carrierwave gem to the project’s gemfile and run ‘bundle install’. Straightforward. After this, run ‘rails generate uploader {uploader_name}’ (in my case, the name was guests (as in hotel guests). In your app file you’ll now find an ‘uploaders’ directory, in which you will find the uploader class that you just generated. Cool. Leave that there for now.</p>
+
+<!-- more -->
+
+
+<p>You’ll need to add a column to the ActiveRecord model that will hold your image. We’ve done this before: ‘rails generate migration Add<strong>_to</strong>__ image:string’. Run your migrations to get this into the database, and then head over to the model, where you’ll mount the uploader:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">mount_uploader</span> <span class="ss">:image</span><span class="p">,</span> <span class="no">ImageUploader</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Great. You’re almost there. The last piece of the puzzle is getting the upload link for the image into your form. Rails, as always, comes to the rescue with a file upload tag:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>  <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>    <span class="err">&lt;</span>%= f.file_field :image %&gt;
+</span><span class='line'>  <span class="nt">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That’s pretty much it. There are a bunch of additional settings you can change in the ImageUploader class &ndash; The ability to scale the image, to create various versions (thumbnails, different sizes, etc) and settings to determine where the image gets saved. I have this running locally now, but I imagine that once I get this up I’ll have to set the storage to AWS or something similar.</p>
+
+<p>Peace.</p>
+
+<p>Resources:</p>
+
+<p><a href="http://railscasts.com/episodes/253-carrierwave-file-uploads">http://railscasts.com/episodes/253-carrierwave-file-uploads</a></p>
+
+<p><a href="https://github.com/carrierwaveuploader/carrierwave">https://github.com/carrierwaveuploader/carrierwave</a></p>
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres/" title="Previous Post: Launching a Sinatra-based Heroku App with Postgres">&laquo; Previous: Launching a Sinatra-based Heroku App with Postgres</a>
+        
+
+        
+          <a class="pull-right" href="/blog/2014/04/18/removing-an-item-with-the-jquery-css-ajax-trifecta/" title="Next Post: Removing an Item with the Jquery-CSS-Ajax Trifecta">Next: Removing an Item with the Jquery-CSS-Ajax Trifecta &raquo;</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/dfenjves"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+
+    <a href="mailto:"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
