@@ -1,0 +1,12 @@
+<div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-md-6&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href =</span><span class="err"> </span><span class="s">&quot;&lt;%= fish.wiki_link %&gt;&quot;</span> <span class="na">target=</span><span class="s">&quot;_blank&quot;</span><span class="nt">&gt;</span>
+	    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;thumbnail fish-thumb&quot;</span><span class="nt">&gt;</span>
+	    	<span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">&quot;btn fish-remove&quot;</span> <span class="na">data-fish-id=</span><span class="s">&lt;%=</span> <span class="na">fish</span><span class="err">.</span><span class="na">id</span> <span class="err">%</span><span class="nt">&gt;</span>, data-dive-id=<span class="err">&lt;</span>%= @dive.id %&gt;&gt;X<span class="nt">&lt;/button&gt;</span>
+	      <span class="err">&lt;</span>%= image_tag &quot;http://#{fish.picture_link}&quot; %&gt;
+	      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;caption&quot;</span><span class="nt">&gt;</span>
+	        <span class="nt">&lt;h4&gt;</span><span class="err">&lt;</span>%= fish.name %&gt;<span class="nt">&lt;/h4&gt;</span>
+	      <span class="nt">&lt;/div&gt;</span>
+	    <span class="nt">&lt;/div&gt;</span>
+	  <span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+</pre></div>

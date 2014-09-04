@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Sinatra | .Mapless]]></title>
+  <link href="http://dfenjves.github.io/blog/categories/sinatra/atom.xml" rel="self"/>
+  <link href="http://dfenjves.github.io/"/>
+  <updated>2014-09-04T11:19:14-04:00</updated>
+  <id>http://dfenjves.github.io/</id>
+  <author>
+    <name><![CDATA[Daniel Fenjves]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Launching a Sinatra-based Heroku App With Postgres]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres/"/>
+    <updated>2014-04-18T13:54:43-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres</id>
+    <content type="html"><![CDATA[<p>Friday was equally one of the most frustrating and satisfying days I’ve had since I’ve started at the Flatrion School. We spent the day working on our pending labs/personal projects and I picked up where I’d left off on my venture to scrape yelp and display museum opening and closing hours dynamically. Once I had my css where I felt like it was somewhat presentable, I decided to set up my application on Heroku, something I imagined would be a simple and painless process. Was I wrong. What followed was five hours of dealing with obstacle after obstacle to get my app launched &ndash; so much so that at one point I had four TAs gathered around trying to help me get through the myriad of issues I was facing. Anyway, I’m going to try to explain what I did to get my app up and running, hopefully this will be useful to other people trying to do the same thing.</p>
+
+<!-- more -->
+
+
+<p><strong>Part 1:  Moving from SQLite3 to Postgres</strong></p>
+
+<p>Heroku doesn’t work with SQLite 3, so the first challenge was to move is-it-open-nyc to postgres. Here are the steps to make this happen:</p>
+
+<p>+Remove sqlite3 from your gemfile and add pg (postgres).
++Change your database connection in your environment.rb file:
+<code>
+ActiveRecord::Base.establish_connection('postgres://localhost/project')
+</code></p>
+
+<p>+Initialize a new postgres server:
+<code>
+initdb -D projectdb
+</code></p>
+
+<p>+Start up the Postgres server in your project directory. This server needs to be running locally when you test your postgres-connected app:
+<code>
+postgres -D projectdb
+</code>
++Leave the server running and in a separate terminal window create a new database within this database cluster. Make sure to give the database the same name as the connection you set up in your Activerecord::Base connection in your environmencreatedb -D project
+Check and see if your database is set up (and play around with data) by running the cli for psql (more on psql here):
+<code>
+psql project
+</code>
+Once your database is set up, run your migrations in exactly the same way you&rsquo;ve been doing for sqlite3. The activerecord adaptor takes care of the connection to the database, so all you should be doing is running rake db:migrate. Seed your data, fire up your database, cross your fingers, and hope that there&rsquo;s something there!</p>
+
+<p><strong>Part deux: Pushing to Heroku</strong>
+<code>
+heroku init
+git push heroku master
+</code></p>
+
+<p>+That&rsquo;s pretty much it, in terms of getting the app on to Heroku (More reading here), but you&rsquo;re not done. You need to set up your database on Heroku itself.
++Install the Postgres buildpack for Heroku:
+<code>
+heroku addons | grep POSTGRES
+</code>
++Connect heroku to your postgres db:
+<code>
+heroku addons:add heroku-postgresql:dev
+</code>
++When this is done, you&rsquo;ll be assigned a  HEROKU_POSTGRESQL_COLOR_URL whose URL will serve as the heroku database for your app. To get the url run:
+<code>
+heroku config | grep HEROKU_POSTGRESQL
+</code>
++The url will look something like this:
+<code>
+HEROKU_POSTGRESQL_RED_URL: postgres://user3123:passkja83kd8@ec2-117-21-174-214.compute-1.amazonaws.com:6212/db982398
+</code>
++Jump back in to your project and replace the ActiveRecord::Base connector url  (&lsquo;postgres://localhost/project&rsquo;) with this new url. Add, commit and push again to heroku.
++From here, your last step is to run your migrations and seed your database in Heroku. To run files, you have to do the same thing your would locally, but add in &lsquo;heroku run&rsquo;:
+<code>
+heroku run rake db:migrate
+heroku run rake db:seed
+</code>
+That&rsquo;s it. There are a LOT of steps to go through, but if you&rsquo;ve done it once and understand what&rsquo;s going on, future attempts should be much easier.</p>
+
+<p>Here it is, up on Heroku:</p>
+
+<p>is-it-open-nyc.herokuapp.com</p>
+]]></content>
+  </entry>
+  
+</feed>

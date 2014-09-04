@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Flatiron School | .Mapless]]></title>
+  <link href="http://dfenjves.github.io/blog/categories/flatiron-school/atom.xml" rel="self"/>
+  <link href="http://dfenjves.github.io/"/>
+  <updated>2014-09-04T11:19:14-04:00</updated>
+  <id>http://dfenjves.github.io/</id>
+  <author>
+    <name><![CDATA[Daniel Fenjves]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Removing an Item With the Jquery-CSS-Ajax Trifecta]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/18/removing-an-item-with-the-jquery-css-ajax-trifecta/"/>
+    <updated>2014-04-18T14:27:04-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/18/removing-an-item-with-the-jquery-css-ajax-trifecta</id>
+    <content type="html"><![CDATA[<p>Recently I&rsquo;ve been working on a basic dive logging application with my buddy Chris from caguthrie.com. The idea is to take the very manual booklet that divers have to fill out after a dive and bring it online. Similar products like this exist, but we wanted to make our own.</p>
+
+<p>I&rsquo;m using this project to beef up my javascript/ajax skills and as such, will be writing today about removing items from a page using javascript, and then removing those items from your database by making an ajax request to your server.</p>
+
+<p>We built a section in the log where you can add fish that you&rsquo;ve seen on your dive. It&rsquo;s based on a scrape of common fish from wikipedia. Here&rsquo;s an example:</p>
+
+<p style="text-align:center;"><img src="/images/ajaxpic1.png" width="600"></p>
+
+<!-- more -->
+
+
+<p>Now let&rsquo;s say I didn&rsquo;t actually see a manefish on my most recent dive. How would I remove it? We need to figure out the following steps:</p>
+
+<p> 1) Display a remove button when you hover over a fish.</br>
+ 2) Remove the fish when the remove button is pressed.</br>
+ 3) Send a request to the server to remove the association between the dive and the fish.</p>
+
+<p>Let&rsquo;s go in to each of these steps in more detail:</p>
+
+<p><strong>Part 1 &ndash; Display a Remove Button on hover using CSS:</strong></p>
+
+<p style="text-align:center;"><img src="/images/ajaxpic2.png" width="300"></p>
+
+<p>Displaying a button on hover can be done in either javascript or css. In our case, we went with the more straightforward css. We created a button span with a specific class (&ldquo;fish-remove)&rdquo; that we placed withing the fish thumnail div. The button also contained data about the dive and the fish id (we added this data with ERB). Here is the html(with erb) for each fish &lsquo;card&rsquo;:</p>
+
+<p>```html</p>
+
+<div class="col-md-6">
+    <a href = "<%= fish.wiki_link %>" target="_blank">
+        <div class="thumbnail fish-thumb">
+            <button class="btn fish-remove" data-fish-id=<%= fish.id %>, data-dive-id=<%= @dive.id %>>X</button>
+          <%= image_tag "http://#{fish.picture_link}" %>
+          <div class="caption">
+            <h4><%= fish.name %></h4>
+          </div>
+        </div>
+      </a>
+  </div>
+
+
+<p>```</p>
+
+<p> We hid the button using css:</p>
+
+<p>```css
+.fish-remove {</p>
+
+<pre><code>visibility: hidden;
+position:absolute;
+top:5px;
+right:20px;
+margin:0;
+padding:5px 3px;
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>You can see that we set the position to absolute and made some changes to margin, padding, etc. This was all done to improve the positioning of the button &ndash; you&rsquo;ll have to play with this yourself.</p>
+
+<p>Next, we set the visibility for the .fish-remove class to become visible when you hover over it&rsquo;s parent .fish-thumb class:</p>
+
+<p>```css
+.fish-thumb:hover .fish-remove{</p>
+
+<pre><code>visibility: visible;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>At this point, if you test your page out, you&rsquo;ll have the button hidden and and showing up when you hover over it. But clicking on it won&rsquo;t do anything.</p>
+
+<p><strong>Part 2 &ndash; Using JQuery to remove the thumbnail from the page</strong></p>
+
+<p>Great. We have a working button. Now, let&rsquo;s write some jquery code to listen for a click on the remove button and remove the thumbnail:</p>
+
+<p>```javascript</p>
+
+<pre><code>$("#fish").on("click", ".fish-remove", function(event){
+    event.preventDefault();
+$(this).closest(".thumbnail").remove();
+});
+</code></pre>
+
+<p>```</p>
+
+<p>What did we do here? We created an event listener (.on &ldquo;click&rdquo;) that listens for a mouse click on any &ldquo;.fish-remove&rdquo; class within the #fish id. We did this so that it will work regardless of whether items have been added to the page via agjax or not. We prevent default on the button and then remove the closest parent .thumbnail class from the page.</p>
+
+<p>Reload your page and you&rsquo;ll see that you can now remove the image when you click on the button. Stupendous. But if you reload again, you&rsquo;ll see the image is still there. That&rsquo;s because you haven&rsquo;t actually send a request to the server to remove the association between the image and the dive. We&rsquo;ll do that next, in part three.</p>
+
+<p><strong>Part 3 &ndash; Using ajax to remove a database association.</strong></p>
+
+<p>If you remember, in part 1 we added additional data in to our html button element: the fish id and the dive id. We
+did this so that we can pull this information in to our javascript and send it in our a jax request. To get this data in our js file, use the .data method with the attribute names that you assigned. He we set them to variables for later use:</p>
+
+<p><code>javascript
+var id = $(this).data('dive-id');
+var diver_id = $(this).data('diver-id');
+</code></p>
+
+<p>We also set the current item that has been selected ($(this)) to a variable for later use:</p>
+
+<p><code>javascript
+var currentX = $(this);
+</code></p>
+
+<p>Now, let&rsquo;s write the ajax request that will send  the data to the server. I&rsquo;ve created a RESTful route in my routes.rb file that looks like this:</p>
+
+<p><code>ruby
+  delete '/dives/:id/fish/:fish_id' =&gt; 'dives#removefish'
+</code></p>
+
+<p>So we need to send a delete request with the dive id and the fish id. Now you see why we have that information as variables!</p>
+
+<p>So, the Ajax:</p>
+
+<p>```javascript</p>
+
+<pre><code>    $.ajax({
+        url: '/dives/'+id+'/divers/'+fish_id,
+    type: 'POST',
+    data: {"_method":"delete"},
+});
+</code></pre>
+
+<p>```</p>
+
+<p>This will remove the fish from the dive on the backend. Let&rsquo;s take the frontend solution we developed in part 2 and add it in to the javascript when we receive a  response from the server telling us that it successfully removed the fish:
+```javascript</p>
+
+<pre><code>    $.ajax({
+        url: '/dives/'+id+'/fish/'+fish_id,
+    type: 'POST',
+    data: {"_method":"delete"},
+    success: function(event){
+        currentX.closest(".thumbnail").remove();
+    }
+});
+</code></pre>
+
+<p>```</p>
+
+<p>Amazing! Put it all together, and voila:</p>
+
+<p>```javascript
+//Removing a fish</p>
+
+<pre><code>$("#fish").on("click", ".fish-remove", function(event){
+    event.preventDefault();
+    var id = $(this).data('dive-id');
+    var fish_id = $(this).data('fish-id');
+    var currentX = $(this);
+
+
+    $.ajax({
+        url: '/dives/'+id+'/fish/'+fish_id,
+    type: 'POST',
+    data: {"_method":"delete"},
+    success: function(event){
+        currentX.closest(".thumbnail").remove();
+    }
+});
+});
+</code></pre>
+
+<p>//end removing a fish
+```</p>
+
+<p>Make sure you have a removefish method in your dives controller that renders &ldquo;render :json => { :head => :ok }&rdquo; when the process of removing the fish form the dive is complete. This is what your javascript will receive as the success response. Here&rsquo;s the method from our controller for reference.</p>
+
+<p>```ruby
+ def removefish</p>
+
+<pre><code>@dive = Dive.find(params[:id])
+@fish = Fish.find(params[:fish_id])
+@dive_fish = DiveFish.find_by(:dive_id =&gt; @dive.id, :fish_id =&gt; @fish.id)
+@dive_fish.destroy
+render :json =&gt; { :head =&gt; :ok }
+</code></pre>
+
+<p>  end
+```</p>
+
+<p>Wow. That was a long blog post. Hopefully this is useful to Javascript/Ajax beginners!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Launching a Sinatra-based Heroku App With Postgres]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres/"/>
+    <updated>2014-04-18T13:54:43-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/18/launching-a-sinatra-based-heroku-app-with-postgres</id>
+    <content type="html"><![CDATA[<p>Friday was equally one of the most frustrating and satisfying days I’ve had since I’ve started at the Flatrion School. We spent the day working on our pending labs/personal projects and I picked up where I’d left off on my venture to scrape yelp and display museum opening and closing hours dynamically. Once I had my css where I felt like it was somewhat presentable, I decided to set up my application on Heroku, something I imagined would be a simple and painless process. Was I wrong. What followed was five hours of dealing with obstacle after obstacle to get my app launched &ndash; so much so that at one point I had four TAs gathered around trying to help me get through the myriad of issues I was facing. Anyway, I’m going to try to explain what I did to get my app up and running, hopefully this will be useful to other people trying to do the same thing.</p>
+
+<!-- more -->
+
+
+<p><strong>Part 1:  Moving from SQLite3 to Postgres</strong></p>
+
+<p>Heroku doesn’t work with SQLite 3, so the first challenge was to move is-it-open-nyc to postgres. Here are the steps to make this happen:</p>
+
+<p>+Remove sqlite3 from your gemfile and add pg (postgres).
++Change your database connection in your environment.rb file:
+<code>
+ActiveRecord::Base.establish_connection('postgres://localhost/project')
+</code></p>
+
+<p>+Initialize a new postgres server:
+<code>
+initdb -D projectdb
+</code></p>
+
+<p>+Start up the Postgres server in your project directory. This server needs to be running locally when you test your postgres-connected app:
+<code>
+postgres -D projectdb
+</code>
++Leave the server running and in a separate terminal window create a new database within this database cluster. Make sure to give the database the same name as the connection you set up in your Activerecord::Base connection in your environmencreatedb -D project
+Check and see if your database is set up (and play around with data) by running the cli for psql (more on psql here):
+<code>
+psql project
+</code>
+Once your database is set up, run your migrations in exactly the same way you&rsquo;ve been doing for sqlite3. The activerecord adaptor takes care of the connection to the database, so all you should be doing is running rake db:migrate. Seed your data, fire up your database, cross your fingers, and hope that there&rsquo;s something there!</p>
+
+<p><strong>Part deux: Pushing to Heroku</strong>
+<code>
+heroku init
+git push heroku master
+</code></p>
+
+<p>+That&rsquo;s pretty much it, in terms of getting the app on to Heroku (More reading here), but you&rsquo;re not done. You need to set up your database on Heroku itself.
++Install the Postgres buildpack for Heroku:
+<code>
+heroku addons | grep POSTGRES
+</code>
++Connect heroku to your postgres db:
+<code>
+heroku addons:add heroku-postgresql:dev
+</code>
++When this is done, you&rsquo;ll be assigned a  HEROKU_POSTGRESQL_COLOR_URL whose URL will serve as the heroku database for your app. To get the url run:
+<code>
+heroku config | grep HEROKU_POSTGRESQL
+</code>
++The url will look something like this:
+<code>
+HEROKU_POSTGRESQL_RED_URL: postgres://user3123:passkja83kd8@ec2-117-21-174-214.compute-1.amazonaws.com:6212/db982398
+</code>
++Jump back in to your project and replace the ActiveRecord::Base connector url  (&lsquo;postgres://localhost/project&rsquo;) with this new url. Add, commit and push again to heroku.
++From here, your last step is to run your migrations and seed your database in Heroku. To run files, you have to do the same thing your would locally, but add in &lsquo;heroku run&rsquo;:
+<code>
+heroku run rake db:migrate
+heroku run rake db:seed
+</code>
+That&rsquo;s it. There are a LOT of steps to go through, but if you&rsquo;ve done it once and understand what&rsquo;s going on, future attempts should be much easier.</p>
+
+<p>Here it is, up on Heroku:</p>
+
+<p>is-it-open-nyc.herokuapp.com</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Notes From a Weekend of Hacking]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/18/notes-from-a-weekend-of-hacking/"/>
+    <updated>2014-04-18T13:53:45-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/18/notes-from-a-weekend-of-hacking</id>
+    <content type="html"><![CDATA[<p>I’m piecing together a little Sinatra app that scrapes Yelp and displays schedule data for the many museums in New York. It’s an interesting exercise and has been pretty challenging so far. It’s not finished yet, but here are a few thoughts and lessons from my work:</p>
+
+<p>1) rspec &ndash; I had a lot of time getting rspec working, but I found that checking all of the dependencies and essentially testing each piece of the process was the best way to troubleshoot the bugs I was getting. Once I had spec working, I actually got into the groove of writing tests and then immediately solving those tests in the models I was building. The best way to go about it is to write the tests precisely and with a narrow enough scope that they don’t seem totally overwhelming when it comes to solving them. Also .to be is not the same as .to eq. ().to be() looks for an exact object match, as opposed to eq, which looks for the contents of the object to be the same.</p>
+
+<!-- more -->
+
+
+<p>2)There’s an issue with the Time object in ruby. Sometimes you need times without dates &ndash; as is the case with a schedule: The MoMA is open from 8:30am to 5:30pm on Wednesdays &ndash; but it seems that the Time and DateTime classes require a date as well as a time. There’s a nice little discussion to read here: <a href="https://www.ruby-forum.com/topic/215970.">https://www.ruby-forum.com/topic/215970.</a> Here’s what I did to get around this &ndash; not sure if it’s ok or will come back to bite me so any thoughts are very welcome: I assigned an arbitrary date (2000,1,1) to serve as a placeholder. So I have a string “10:30 am &ndash; 5:00pm”. How do I get this into a Time format?</p>
+
+<p><code>ruby
+opening_string = week_hash[day].split(" - ")[0]
+t = Time.new(2000,1,1,(opening_string[0..1].to_i),(opening_string[3..4].to_i))
+@open = t.strftime("%H:%M")
+closing_string = week_hash[day].split(" - ")[1]
+p = Time.new(2000,1,1,(closing_string[0..1].to_i+12),(closing_string[3..4].to_i))
+@close = p.strftime("%H:%M”)
+</code></p>
+
+<p>It’s not pretty, but it seems to do the trick. If there’s a better way to do this, I’d like to know it.</p>
+
+<p>3) It was interesting to think about the structure of the project. I built one model whose purpose it is to scrape Yelp using nokogiri, and another model to build a museum instance using the data that was pulled from yelp. I had trouble with redundancy as there were methods in the two models that seemed to be doing the same thing. My initialize method for a Museum.new is a good example of this:</p>
+
+<p>```ruby</p>
+
+<pre><code> def initialize(yelp_object)
+      @yelp_object = yelp_object
+      @name = yelp_object.name
+      @schedule = yelp_object.schedule
+      set_week_hash
+      set_times(:wednesday)
+ end
+</code></pre>
+
+<p>```
+Essentially the name and schedule instance variables are just pulling from the yelp-object methods with the same names. Seems weird.</p>
+
+<p>Anyway, I’m rambling &ndash; would love some feedback if anyone can provide!
+D</p>
+
+<p>The code so far: <a href="https://github.com/dfenjves/is-it-open">https://github.com/dfenjves/is-it-open</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How Legal Is Web Scraping?"]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/18/how-legal-is-web-scraping/"/>
+    <updated>2014-04-18T13:53:13-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/18/how-legal-is-web-scraping</id>
+    <content type="html"><![CDATA[<p>I’ve recently learned how to perform basic web scraping using nothing but Nokogiri, Open-Uri, Ruby, a paperclip, and the internet. It’s an awesome feeling &ndash; to be able to MacGyver your way deep in to the code of a massive website and pull out exactly what you need, throw it into a database, and then manipulate that data to your heart’s content. It’s like I’ve discovered that I have a secret superpower, and am only beginning to see what I can do with it.</p>
+
+<p style="text-align:center;"> <img src="/images/macgyver.jpg" alt="MacGyver" /></p>
+
+<p style="text-align:center;"> <em>How I felt when I scraped my first website</em></p>
+
+<p>But, as the cliched superhero movie line goes: Son, with great power comes great responsibility. Cue John Williams music.</p>
+
+<!-- more -->
+
+
+<p>What is that responsibility when it comes to web scraping, exactly? Well, web scraping lives in a grey area of internet law. It’s a weird twilight zone of legality, where people operate in an uncertain haze- unsure of whether scraping is within or beyond the bounds of the law. Let’s examine this grey area in further depth.</p>
+
+<p>But first, a primer on scraping. Imagine being able to set up a system on your computer that goes through every link on Amazon.com and finds the name of every book in their catalog, it’s price, and it’s release date. Or building a program that is able to go through your Facebook friends and pull their publicly available information in to your computer. Or grabbing prices on Craigslist for all 400 apartment listings within a mile of your house in New York without having to manually click on each link. That is web scraping in a nutshell. Using a variety of programs, a scraper is a computer program developed to copy publicly available information from a website.</p>
+
+<p>Notice that I said <em>publicly available</em>. Obviously scraping someone’s online bank accounts will get you thrown in jail faster than you can say <em>identity theft</em>. It’s the stuff that’s out there for everyone to see that makes for an interesting exploration. Is information in the yellow pages subject to copyright protection? Or listings on craigslist? What about the titles and urls of YouTube videos? Check out these interesting legal cases and see what conclusion you can come to:</p>
+
+<p><strong>Feist Publications, Inc., v. Rural Telephone Service Co.</strong>, <em>499 U.S. 340 (1991),[1] is a decision by the Supreme Court of the United States establishing that information alone without a minimum of original creativity cannot be protected by copyright. In the case appealed, Feist had copied information from Rural’s telephone listings to include in its own, after Rural had refused to license the information. Rural sued for copyright infringement. The Court ruled that information contained in Rural’s phone directory was not copyrightable and that therefore no infringement existed.</em></p>
+
+<p>Ok, so pulling information from something like a telephone directory isn’t copyright infringement, because they’re facts and not an artistic creation. Cool. But what is the equivalent of that online? Craigslist? Yellowpages.com (ha.)?</p>
+
+<p><strong>American Airlines vs. Farechase</strong>
+ <em>AA successfully obtained an injunction from a Texas trial court, stopping FareChase from selling software that enables users to compare online fares if it also searches AA’s website. The airline argued that FareChase’s websearch software trespassed on AA’s servers when it collected the publicly available data. FareChase filed an appeal in March 2003. By June, FareChase and AA agreed to settle and the appeal was dropped.[9]</em></p>
+
+<p>Woah, woah, woah. Farechase was blocked from scraping AA’s site, despite the data begin publicly available and factual (although sometimes airline prices can definitely seem like fiction) ? That seems to contradict the Feist case, doesn’t it? If you dig a little deeper in to the decision though, you’ll note that American claimed their ‘web fares’ were restricted to only their site (as opposed to the fares disseminated to other websites &ndash; think Orbitz or Kayak). Since they were restricted to their own site, perhaps the scrape wasn’t pulling <em>publicly available</em> information, per se. Although that seems like something of a leap, if I may say so.</p>
+
+<p><strong>eBay v. Bidder’s Edge</strong>, <em>100 F.Supp.2d 1058 (N.D. Cal. 2000), was a leading case applying the trespass to chattels doctrine to online activities. In 2000, eBay, an online auction company, successfully used the ‘trespass to chattels’ theory to obtain a preliminary injunction preventing Bidder’s Edge, an auction data aggregator, from using a ‘crawler' to gather data from eBay&rsquo;s website.[1] The opinion was a leading case applying ‘trespass to chattels’ to online activities, although its analysis has been criticized in more recent jurisprudence.</em></p>
+
+<p>So web crawling differs from web scraping in several ways, but the idea is the same &ndash; pulling data out of  a website. The eBay case is a big one for internet law &ndash; Bidder’s Edge was enjoined from crawling eBay for auction data on the grounds of ‘trespass to chattel’ &ndash; <em>a tort whereby the infringing party has intentionally (or, in Australia, negligently) interfered with another person’s lawful possession of a chattel (movable personal property).</em></p>
+
+<p>Another additional consideration: While scraping may or may not be of dubious legality, websites set their own terms of service and can ban you from accessing them if you engage in practices that violate these terms. For example, from the YouTube terms:</p>
+
+<p><em>You agree not to use or launch any automated system, including without limitation, “robots,” “spiders,” or “offline readers,” that accesses the Service in a manner that sends more request messages to the YouTube servers in a given period of time than a human can reasonably produce in the same period by using a conventional on-line web browser.</em></p>
+
+<p>I guess the conclusion to draw here is that while the legality of scraping is pretty unclear, unless you’re willing to take on a company in court, err on the side of using an API or other acceptable method of accessing their data. Or don’t, you rebel. It’s up to you.</p>
+
+<p>(Additional interesting reading from the New Yorker <a href="http://www.newyorker.com/online/blogs/elements/2014/02/when-programmers-scrape-by.html">here</a>)</p>
+]]></content>
+  </entry>
+  
+</feed>

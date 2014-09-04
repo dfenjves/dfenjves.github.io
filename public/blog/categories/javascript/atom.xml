@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Javascript | .Mapless]]></title>
+  <link href="http://dfenjves.github.io/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://dfenjves.github.io/"/>
+  <updated>2014-09-04T11:19:14-04:00</updated>
+  <id>http://dfenjves.github.io/</id>
+  <author>
+    <name><![CDATA[Daniel Fenjves]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Using the 'Apply' Function in Javascript]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/07/10/using-the-apply-function-in-javascript/"/>
+    <updated>2014-07-10T15:33:56-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/07/10/using-the-apply-function-in-javascript</id>
+    <content type="html"><![CDATA[<p>My foray into javascript has not been easy &ndash; It&rsquo;s meant working hard to get out of the mindset of Ruby and forcing myself into the discomfort of a relatively new language. Sort of like switching to French if you speak Spanish &ndash; there are many similarities, but relying on your knowledge of one language can actually be a debilitating crutch if you aren&rsquo;t carefully about what knowledge you transfer over.</p>
+
+<p>I&rsquo;ve been stuggling with understanding the <code>.apply</code> method in javascript. There isn&rsquo;t any really analogous function that I&rsquo;ve found in Ruby (there probably is, but I just don&rsquo;t know it yet&hellip;).</p>
+
+<p>One way <code>.apply</code> is used is to apply the elements in an array as arguments in a function. For example:</p>
+
+<p>```js
+Math.max(1,2,3,4) //=> 4</p>
+
+<p>//but</p>
+
+<p>Math.max([1,2,3,4]) //=> NaN
+<code>``
+Instead of looping through each of the numbers in the array using</code>for<code>we can use the</code>apply` method to take the elements of the array and populate them into the function&rsquo;s arguments:</p>
+
+<p><code>
+Math.max.apply(null, [1,2,3,4]) //=&gt; 4
+</code>
+Javascript is clicking. Slowly.</p>
+]]></content>
+  </entry>
+  
+</feed>
