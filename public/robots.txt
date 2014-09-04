@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://dfenjves.github.io/sitemap.xml 
