@@ -4,7 +4,7 @@
   <title><![CDATA[.Mapless]]></title>
   <link href="http://dfenjves.github.io/atom.xml" rel="self"/>
   <link href="http://dfenjves.github.io/"/>
-  <updated>2014-09-04T11:33:22-04:00</updated>
+  <updated>2014-09-04T11:34:43-04:00</updated>
   <id>http://dfenjves.github.io/</id>
   <author>
     <name><![CDATA[Daniel Fenjves]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>I&rsquo;ve just finished teaching two back-to-back web development summer camps for high school students at the Flatiron School, and was recently hired as a full-time instructor for the upcoming <a href="https://after.flatironschool.com/">Flatiron after-school coding program</a>. I&rsquo;m incredibly excited to be back in the classroom, working with great students, a strong team, and interesting content. As such, I&rsquo;m going to pivot here for a while and post insights, best practices, and thoughts on teaching kids to code.</p>
 
 <p>Today I&rsquo;d like to talk about teaching &ndash; and practicing &ndash; patience. It&rsquo;s one of those intangible soft-skills that you&rsquo;re automatically supposed to have as a teacher. We preach the virtues of patience in class on a daily basis. We are supposed to be able to sit with a student who &lsquo;isn&rsquo;t getting it&rsquo; for as long as it takes, until a concept clicks and suddenly everything is clear. Teachers are the epitome of patience, right?</p>
+
+<!-- more -->
+
 
 <p>Unfortunately, finding patience can be a struggle for me. After teaching a concept multiple times and then sitting with a student who still doesn&rsquo;t understand, I feel myself tense up and frustration rears its head. Why doesn&rsquo;t this student get it? However, when I pause and examine this frustration a little more, I realize that it is directed towards myself, and not the student. If the student isn&rsquo;t getting it, it&rsquo;s my fault for not teaching well enough, or for not planning for every type of learning situation. And I&rsquo;ll spiral down from frustration into despair: &ldquo;I guess I&rsquo;m just a terrible teacher. I&rsquo;m not doing this right.&rdquo;, etc.</p>
 
