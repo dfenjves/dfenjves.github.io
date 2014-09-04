@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Pythagorean Triplets | .Mapless]]></title>
+  <link href="http://dfenjves.github.io/blog/categories/pythagorean-triplets/atom.xml" rel="self"/>
+  <link href="http://dfenjves.github.io/"/>
+  <updated>2014-09-04T11:19:14-04:00</updated>
+  <id>http://dfenjves.github.io/</id>
+  <author>
+    <name><![CDATA[Daniel Fenjves]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Project Euler - Pythagorean Triplets]]></title>
+    <link href="http://dfenjves.github.io/blog/2014/04/28/project-euler-pythagorean-triplets/"/>
+    <updated>2014-04-28T10:24:30-04:00</updated>
+    <id>http://dfenjves.github.io/blog/2014/04/28/project-euler-pythagorean-triplets</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been trying to crank through Project Euler questions over the past week or so. They are pretty challenging at first sight, but I&rsquo;m finding that after looking at them for a few minutes, patterns start revealing themselves and the problem becomes much clearer. Today&rsquo;s question is the following:</p>
+
+<blockquote><p>A Pythagorean triplet is a set of three natural numbers, a &lt; b &lt; c, for which,</p>
+
+<p>a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup>
+For example, 3<sup>2</sup> + 4<sup>2</sup> = 9 + 16 = 25 = 5<sup>2</sup>.</p>
+
+<p>There exists exactly one Pythagorean triplet for which a + b + c = 1000.</p>
+
+<p>Find the product abc</p></blockquote>
+
+<!-- more -->
+
+
+<p>I figure that the best way to approach these problems is to break them down in to manageable chunks that I can chain together to get a final answer. In this situation, I broke the problem down like this:</p>
+
+<p>1) Initialize an instance of a class with an instance variable equal to the number that is the sum of a + b + c.</p>
+
+<p>2) Get all three number combinations that add up to this number.</p>
+
+<p>3) Filter these combinations to those where a &lt; b &lt; c</p>
+
+<p>4) Check available combinations for pythagorean triplet-ness</p>
+
+<p>5) Find the product of the numbers in the triplet.</p>
+
+<h3>The Breakdown</h3>
+
+<h4>Initialize an instance of a class with an instance variable equal to the number that is the sum of a + b + c.</h4>
+
+<p>```ruby</p>
+
+<pre><code>def initialize(sum)
+    @sum = sum
+end
+</code></pre>
+
+<p>```
+Pretty straightforward. Set the @sum instance variable to whatever the sum is that we&rsquo;re given at the start of the problem (in this case, 1000).</p>
+
+<h4>Get all three number combinations that add up to the sum.</h4>
+
+<p>```ruby</p>
+
+<pre><code>def combinations
+    combinations_adding_to_n = []
+    (1..@sum).each do |a|
+        (1..@sum).each do |b|
+            (1..@sum).each do |c|
+                combinations_adding_to_n &lt;&lt; [a,b,c] if a+b+c == @sum
+            end
+        end
+    end
+    combinations_adding_to_n
+end
+</code></pre>
+
+<p>```
+I&rsquo;m creating a series of three nested loops, where the variable being set up for each loop is a, b, and c, respectively. Within the last loop I add [a,b,c] to the cobinations_adding_to_n array if the sum of a,b, and c is equal to the sum we&rsquo;ve initialize the class instance with.</p>
+
+<h4>Filter the combinations to those where a &lt; b &lt; c</h4>
+
+<p>```ruby</p>
+
+<pre><code>def ordered_ascending_sum
+    combinations.collect do |array_sum|
+        array_sum if array_sum[0] &lt; array_sum[1] &amp;&amp; array_sum[1] &lt; array_sum[2]
+    end.compact
+end
+</code></pre>
+
+<p>```
+We use the .collect method to create an array where the only items that are stored are those from combinations where a &lt; b &lt; c, or the the array&rsquo;s value at 0 index is less that its value at 1 index and its value at 1 index is less than its value 2 index. I use compact at the end of this to get rid of nil values in the array.</p>
+
+<h4>Check available combinations for pythagorean triplet-ness</h4>
+
+<p>I built this method to check if an array [a,b,c] is a pythagorean triplet:</p>
+
+<p>```ruby</p>
+
+<pre><code>def is_pythagorean_triplet?(input_array)
+    input_array[0]**2 + input_array[1]**2 == input_array[2]**2
+end
+</code></pre>
+
+<p>```
+Test each of your possible combinations for pythagorean triplet-ness:</p>
+
+<p>```ruby</p>
+
+<pre><code>def triplet_for_n
+    ordered_ascending_sum.collect do |abc|
+        abc if is_pythagorean_triplet?(abc)
+    end.compact.flatten
+end
+</code></pre>
+
+<p>```
+This will provide the one array where [a,b,c] is a pythagorean triplet. On to our last step:</p>
+
+<h4>Find the Product of the Numbers in the Triplet</h4>
+
+<p>```ruby</p>
+
+<pre><code>def product_of_triplet
+    triplet_for_n.reduce[:*]
+end
+</code></pre>
+
+<p>```</p>
+
+<p>That&rsquo;s it! We get the when a+b+c = 1000, we run:</p>
+
+<p><code>
+test = Triplet.new(1000)
+puts test.product_of_triplet
+</code>
+And our answer is&hellip; Ha. You thought I&rsquo;d give it away here. You&rsquo;ll have to run this code yourself to find out!</p>
+]]></content>
+  </entry>
+  
+</feed>

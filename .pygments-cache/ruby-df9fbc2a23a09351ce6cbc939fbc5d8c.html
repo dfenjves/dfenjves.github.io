@@ -1,0 +1,8 @@
+<div class="highlight"><pre> <span class="k">def</span> <span class="nf">removefish</span>
+    <span class="vi">@dive</span> <span class="o">=</span> <span class="no">Dive</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+    <span class="vi">@fish</span> <span class="o">=</span> <span class="no">Fish</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:fish_id</span><span class="o">]</span><span class="p">)</span>
+    <span class="vi">@dive_fish</span> <span class="o">=</span> <span class="no">DiveFish</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">:dive_id</span> <span class="o">=&gt;</span> <span class="vi">@dive</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="ss">:fish_id</span> <span class="o">=&gt;</span> <span class="vi">@fish</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="vi">@dive_fish</span><span class="o">.</span><span class="n">destroy</span>
+    <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:head</span> <span class="o">=&gt;</span> <span class="ss">:ok</span> <span class="p">}</span>
+  <span class="k">end</span>
+</pre></div>

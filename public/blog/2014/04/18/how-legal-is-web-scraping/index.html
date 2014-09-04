@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How Legal Is Web Scraping?" - .Mapless</title>
+  <meta name="author" content="Daniel Fenjves">
+
+  
+  <meta name="description" content="How Legal Is Web Scraping?" written Apr 18th, 2014 in flatiron school, internet law, law, nokogiri, open-uri, scraping I’ve recently learned how to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dfenjves.github.io/blog/2014/04/18/how-legal-is-web-scraping">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title=".Mapless" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50172618-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>How Legal Is Web Scraping?"</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-04-18T13:53:13-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/flatiron-school/'>flatiron school</a>, <a class='category' href='/blog/categories/internet-law/'>internet law</a>, <a class='category' href='/blog/categories/law/'>law</a>, <a class='category' href='/blog/categories/nokogiri/'>nokogiri</a>, <a class='category' href='/blog/categories/open-uri/'>open-uri</a>, <a class='category' href='/blog/categories/scraping/'>scraping</a>
+  
+</span>
+
+
+        </div>
+        <p>I’ve recently learned how to perform basic web scraping using nothing but Nokogiri, Open-Uri, Ruby, a paperclip, and the internet. It’s an awesome feeling &ndash; to be able to MacGyver your way deep in to the code of a massive website and pull out exactly what you need, throw it into a database, and then manipulate that data to your heart’s content. It’s like I’ve discovered that I have a secret superpower, and am only beginning to see what I can do with it.</p>
+
+<p style="text-align:center;"> <img src="/images/macgyver.jpg" alt="MacGyver" /></p>
+
+<p style="text-align:center;"> <em>How I felt when I scraped my first website</em></p>
+
+<p>But, as the cliched superhero movie line goes: Son, with great power comes great responsibility. Cue John Williams music.</p>
+
+<!-- more -->
+
+
+<p>What is that responsibility when it comes to web scraping, exactly? Well, web scraping lives in a grey area of internet law. It’s a weird twilight zone of legality, where people operate in an uncertain haze- unsure of whether scraping is within or beyond the bounds of the law. Let’s examine this grey area in further depth.</p>
+
+<p>But first, a primer on scraping. Imagine being able to set up a system on your computer that goes through every link on Amazon.com and finds the name of every book in their catalog, it’s price, and it’s release date. Or building a program that is able to go through your Facebook friends and pull their publicly available information in to your computer. Or grabbing prices on Craigslist for all 400 apartment listings within a mile of your house in New York without having to manually click on each link. That is web scraping in a nutshell. Using a variety of programs, a scraper is a computer program developed to copy publicly available information from a website.</p>
+
+<p>Notice that I said <em>publicly available</em>. Obviously scraping someone’s online bank accounts will get you thrown in jail faster than you can say <em>identity theft</em>. It’s the stuff that’s out there for everyone to see that makes for an interesting exploration. Is information in the yellow pages subject to copyright protection? Or listings on craigslist? What about the titles and urls of YouTube videos? Check out these interesting legal cases and see what conclusion you can come to:</p>
+
+<p><strong>Feist Publications, Inc., v. Rural Telephone Service Co.</strong>, <em>499 U.S. 340 (1991),[1] is a decision by the Supreme Court of the United States establishing that information alone without a minimum of original creativity cannot be protected by copyright. In the case appealed, Feist had copied information from Rural’s telephone listings to include in its own, after Rural had refused to license the information. Rural sued for copyright infringement. The Court ruled that information contained in Rural’s phone directory was not copyrightable and that therefore no infringement existed.</em></p>
+
+<p>Ok, so pulling information from something like a telephone directory isn’t copyright infringement, because they’re facts and not an artistic creation. Cool. But what is the equivalent of that online? Craigslist? Yellowpages.com (ha.)?</p>
+
+<p><strong>American Airlines vs. Farechase</strong>
+ <em>AA successfully obtained an injunction from a Texas trial court, stopping FareChase from selling software that enables users to compare online fares if it also searches AA’s website. The airline argued that FareChase’s websearch software trespassed on AA’s servers when it collected the publicly available data. FareChase filed an appeal in March 2003. By June, FareChase and AA agreed to settle and the appeal was dropped.[9]</em></p>
+
+<p>Woah, woah, woah. Farechase was blocked from scraping AA’s site, despite the data begin publicly available and factual (although sometimes airline prices can definitely seem like fiction) ? That seems to contradict the Feist case, doesn’t it? If you dig a little deeper in to the decision though, you’ll note that American claimed their ‘web fares’ were restricted to only their site (as opposed to the fares disseminated to other websites &ndash; think Orbitz or Kayak). Since they were restricted to their own site, perhaps the scrape wasn’t pulling <em>publicly available</em> information, per se. Although that seems like something of a leap, if I may say so.</p>
+
+<p><strong>eBay v. Bidder’s Edge</strong>, <em>100 F.Supp.2d 1058 (N.D. Cal. 2000), was a leading case applying the trespass to chattels doctrine to online activities. In 2000, eBay, an online auction company, successfully used the ‘trespass to chattels’ theory to obtain a preliminary injunction preventing Bidder’s Edge, an auction data aggregator, from using a ‘crawler&#8217; to gather data from eBay&rsquo;s website.[1] The opinion was a leading case applying ‘trespass to chattels’ to online activities, although its analysis has been criticized in more recent jurisprudence.</em></p>
+
+<p>So web crawling differs from web scraping in several ways, but the idea is the same &ndash; pulling data out of  a website. The eBay case is a big one for internet law &ndash; Bidder’s Edge was enjoined from crawling eBay for auction data on the grounds of ‘trespass to chattel’ &ndash; <em>a tort whereby the infringing party has intentionally (or, in Australia, negligently) interfered with another person’s lawful possession of a chattel (movable personal property).</em></p>
+
+<p>Another additional consideration: While scraping may or may not be of dubious legality, websites set their own terms of service and can ban you from accessing them if you engage in practices that violate these terms. For example, from the YouTube terms:</p>
+
+<p><em>You agree not to use or launch any automated system, including without limitation, “robots,” “spiders,” or “offline readers,” that accesses the Service in a manner that sends more request messages to the YouTube servers in a given period of time than a human can reasonably produce in the same period by using a conventional on-line web browser.</em></p>
+
+<p>I guess the conclusion to draw here is that while the legality of scraping is pretty unclear, unless you’re willing to take on a company in court, err on the side of using an API or other acceptable method of accessing their data. Or don’t, you rebel. It’s up to you.</p>
+
+<p>(Additional interesting reading from the New Yorker <a href="http://www.newyorker.com/online/blogs/elements/2014/02/when-programmers-scrape-by.html">here</a>)</p>
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2014/04/18/test/" title="Previous Post: Test">&laquo; Previous: Test</a>
+        
+
+        
+          <a class="pull-right" href="/blog/2014/04/18/notes-from-a-weekend-of-hacking/" title="Next Post: Notes from a Weekend of Hacking">Next: Notes from a Weekend of Hacking &raquo;</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
+    
+    <a href="https://twitter.com/dfenjves"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+    
+
+    
+
+    <a href="mailto:"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+  </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

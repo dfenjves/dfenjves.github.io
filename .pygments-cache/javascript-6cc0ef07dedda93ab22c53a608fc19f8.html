@@ -1,0 +1,5 @@
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#fish&quot;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="s2">&quot;.fish-remove&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+	<span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">closest</span><span class="p">(</span><span class="s2">&quot;.thumbnail&quot;</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
